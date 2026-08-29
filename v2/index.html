@@ -1,35 +1,36 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Jogos da Bibel</title><meta name="description" content="Coleção de joguinhos de alfabetização para crianças, feitos com IA."><meta property="og:title" content="Jogos da Bibel"><meta property="og:description" content="Joguinhos de alfabetização feitos com IA."><meta property="og:image" content="https://www.thiagopatente.com.br/jogo/og.png"><meta property="og:type" content="website"><meta property="og:url" content="https://www.thiagopatente.com.br/jogo/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.thiagopatente.com.br/jogo/og.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"><script src="assets/mascotes.js"></script><script src="assets/glyph.js"></script><style>
 .head{text-align:center;padding:18px 0 6px}.head .k{font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);font-weight:600}
-.head h1{font-size:clamp(40px,12vw,64px)}.head p{color:#7a6f5c;font-size:17px}
+.head h1{font-size:clamp(40px,12vw,64px);letter-spacing:-.015em}.head p{color:var(--ink-soft);font-size:17px;font-weight:500}
 .turmabar{display:flex;align-items:center;justify-content:center;gap:10px;margin:16px 0 4px;flex-wrap:wrap}
-.turmabtn{border:3px solid #efe7d8;background:#fff;border-radius:999px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:16px;color:var(--tinta);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 0 rgba(124,36,16,.10)}
+.turmabtn{border:3px solid var(--line);background:var(--card);border-radius:999px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:16px;color:var(--tinta);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:var(--clay-press)}
 .turmabtn:active{transform:translateY(2px)}
 .turmabtn.on{background:var(--coral);color:#fff;border-color:var(--coral)}
 .turmaface{display:inline-flex;margin-right:2px}
-.turmahint{text-align:center;color:#8a7f6c;font-size:13px;margin:2px 0 0}
+.turmahint{text-align:center;color:var(--ink-soft);font-size:13px;margin:2px 0 0}
 .secttl{font-weight:700;font-size:14px;color:var(--terra);text-transform:uppercase;letter-spacing:.06em;margin:22px 4px 8px;grid-column:1/-1;display:flex;align-items:center;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
 @media(min-width:560px){.grid2{grid-template-columns:1fr 1fr 1fr}}
-.tile{background:#fff;border:3px solid #efe7d8;border-radius:22px;padding:18px 12px;text-align:center;text-decoration:none;color:var(--tinta);box-shadow:0 5px 0 rgba(124,36,16,.10)}
-.tile:active{transform:translateY(2px)}.tile .te{font-size:46px}.tile .tt{font-weight:700;font-size:19px;color:var(--terra);margin-top:6px}.tile .td{font-size:13px;color:#8a7f6c;margin-top:2px;line-height:1.3}
-.foot{text-align:center;color:#8a7f6c;font-size:13px;margin:26px 0 10px}
+.tile{background:var(--card);border:3px solid var(--line);border-radius:var(--r-md);padding:18px 12px;text-align:center;text-decoration:none;color:var(--tinta);box-shadow:var(--clay);transition:transform .12s var(--ease-out),box-shadow .12s var(--ease-out)}
+.tile:active{transform:translateY(3px);box-shadow:var(--clay-press)}.tile .te{font-size:46px}.tile .tt{font-weight:700;font-size:19px;color:var(--terra);margin-top:6px}.tile .td{font-size:13px;color:var(--ink-soft);margin-top:2px;line-height:1.3}
+.foot{text-align:center;color:var(--ink-soft);font-size:13px;margin:26px 0 10px}
 .profilebar{display:flex;align-items:center;justify-content:center;gap:10px;margin:20px 0 2px;flex-wrap:wrap}
-.profilebar .lbl{font-size:13px;color:#8a7f6c;font-weight:600}
-.agebtn{border:3px solid #efe7d8;background:#fff;border-radius:999px;width:36px;height:36px;font-weight:700;font-size:14px;color:#8a7f6c;cursor:pointer}
+.profilebar .lbl{font-size:13px;color:var(--ink-soft);font-weight:600}
+.agebtn{border:3px solid var(--line);background:var(--card);border-radius:999px;width:36px;height:36px;font-weight:700;font-size:14px;color:var(--ink-soft);cursor:pointer}
 .agebtn.on{background:var(--coral);color:#fff;border-color:var(--coral)}
 .today{margin:14px 0 2px}
-.today a{display:flex;align-items:center;gap:14px;background:#fff;border:3px solid var(--coral);border-radius:22px;padding:14px 16px;text-decoration:none;color:var(--tinta);box-shadow:0 5px 0 rgba(124,36,16,.14)}
+.today a{display:flex;align-items:center;gap:14px;background:var(--card);border:3px solid var(--coral);border-radius:var(--r-md);padding:14px 16px;text-decoration:none;color:var(--tinta);box-shadow:var(--clay)}
+.today a:active{transform:translateY(3px);box-shadow:var(--clay-press)}
 .today .te{font-size:44px;flex:none}.today .te .gly{width:1em;height:1em}
 .today .meta{text-align:left}.today .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:700}
 .today .tt{font-weight:700;font-size:19px;color:var(--terra);margin-top:2px}
 .stickers{margin:20px 0 2px;text-align:center}
-.stickers .lbl{font-size:13px;color:#8a7f6c;font-weight:600;display:block;margin-bottom:8px}
+.stickers .lbl{font-size:13px;color:var(--ink-soft);font-weight:600;display:block;margin-bottom:8px}
 .stickers .shelf{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.stickers .fig{width:44px;height:44px;border:3px solid #efe7d8;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 rgba(124,36,16,.10)}
+.stickers .fig{width:46px;height:46px;border:3px solid var(--line);border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:var(--clay-press)}
 .stickers .fig .gly{width:26px;height:26px}
 .timebar{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0 2px}
-.timebar .lbl{font-size:13px;color:#8a7f6c;font-weight:600}
-.timebtn{border:3px solid #efe7d8;background:#fff;border-radius:999px;padding:7px 13px;font-family:inherit;font-weight:700;font-size:13px;color:#8a7f6c;cursor:pointer}
+.timebar .lbl{font-size:13px;color:var(--ink-soft);font-weight:600}
+.timebtn{border:3px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font-family:inherit;font-weight:700;font-size:13px;color:var(--ink-soft);cursor:pointer}
 .timebtn.on{background:var(--coral);color:#fff;border-color:var(--coral)}
 </style></head><body>
 <button class="lang-btn" id="langBtn" aria-label="Português / English" style="position:fixed;top:12px;right:12px"><span class="flag pt on"></span><span class="flag en"></span></button>
@@ -58,6 +59,7 @@
   <button class="agebtn" id="ageP5" data-p="p5">5</button>
  </div>
  <div class="timebar" id="timebar"></div>
+ <div class="calmbar" id="calmbar"></div>
  <div class="foot" id="foot">Feito por Thiago Patente, para as duas filhas. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a></div>
 </div>
 <script>
@@ -89,8 +91,8 @@ var TILES=[
  {turma:"p2",href:"ingles-pra-figura/",e:"🔤",pt:["Do Inglês pra Figura","ouça em inglês e toque na figura certa"],en:["English by Ear","listen in English and touch the right picture"]},
  {turma:"p2",href:"tracar-numeros/",e:"🔢",pt:["Traçar Números","ligue os pontos e trace o número"],en:["Trace Numbers","connect the dots and trace the number"]}
 ];
-var HEAD={pt:{h1:"Aprender brincando",tag:"joguinhos de alfabetização, feitos com IA",foot:'Feito por Thiago Patente, para as duas filhas. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"toque maior pra mãozinha pequena?",m2:"Maternal II",p2:"Pré II",hintOn:"mostrando só os jogos da ",hintOff:"toque numa turma pra ver só os jogos dela.",sectRec:"recomendados pra essa turma",sectOther:"outros jogos",aboutH2:"Sobre os Jogos da Bibel",aboutP:"Uma coleção de joguinhos de alfabetização e matemática, feitos por Thiago Patente com IA, pra suas duas filhas praticarem em português e inglês no celular. Nada de anúncio, nada de cadastro, é só brincar.",today:"jogo de hoje",figs:"suas figurinhas",tempo:"tempo de brincar",livre:"livre"},
- en:{h1:"Learn by playing",tag:"early learning games, made with AI",foot:'Made by Thiago Patente, for his two daughters. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"bigger buttons for a little hand?",m2:"Maternal II",p2:"Pre II",hintOn:"showing only games for ",hintOff:"tap a class to see only its games.",sectRec:"recommended for this class",sectOther:"other games",aboutH2:"About Jogos da Bibel",aboutP:"A collection of early literacy and math games, made by Thiago Patente with AI, for his two daughters to practice in Portuguese and English on the phone. No ads, no sign-up, just play.",today:"today's game",figs:"your stickers",tempo:"play time",livre:"free"}};
+var HEAD={pt:{h1:"Aprender brincando",tag:"joguinhos de alfabetização, feitos com IA",foot:'Feito por Thiago Patente, para as duas filhas. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"toque maior pra mãozinha pequena?",m2:"Maternal II",p2:"Pré II",hintOn:"mostrando só os jogos da ",hintOff:"toque numa turma pra ver só os jogos dela.",sectRec:"recomendados pra essa turma",sectOther:"outros jogos",aboutH2:"Sobre os Jogos da Bibel",aboutP:"Uma coleção de joguinhos de alfabetização e matemática, feitos por Thiago Patente com IA, pra suas duas filhas praticarem em português e inglês no celular. Nada de anúncio, nada de cadastro, é só brincar.",today:"jogo de hoje",figs:"suas figurinhas",tempo:"tempo de brincar",livre:"livre",calm:"modo calmo",calmOff:"desligado",calmOn:"ligado"},
+ en:{h1:"Learn by playing",tag:"early learning games, made with AI",foot:'Made by Thiago Patente, for his two daughters. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"bigger buttons for a little hand?",m2:"Maternal II",p2:"Pre II",hintOn:"showing only games for ",hintOff:"tap a class to see only its games.",sectRec:"recommended for this class",sectOther:"other games",aboutH2:"About Jogos da Bibel",aboutP:"A collection of early literacy and math games, made by Thiago Patente with AI, for his two daughters to practice in Portuguese and English on the phone. No ads, no sign-up, just play.",today:"today's game",figs:"your stickers",tempo:"play time",livre:"free",calm:"calm mode",calmOff:"off",calmOn:"on"}};
 function getLang(){try{return localStorage.getItem('bibel_lang')||'pt';}catch(e){return 'pt';}}
 function setLang(l){try{localStorage.setItem('bibel_lang',l);}catch(e){}}
 function getProfile(){try{return localStorage.getItem('bibel_profile')||'';}catch(e){return '';}}
@@ -118,6 +120,16 @@ function renderStickers(){
 }
 function getTime(){try{return localStorage.getItem('bibel_screentime')||'';}catch(e){return '';}}
 function setTime(v){try{if(v)localStorage.setItem('bibel_screentime',v);else localStorage.removeItem('bibel_screentime');}catch(e){}}
+function getCalm(){try{return localStorage.getItem('bibel_calm')==='1';}catch(e){return false;}}
+function setCalm(v){try{if(v)localStorage.setItem('bibel_calm','1');else localStorage.removeItem('bibel_calm');}catch(e){}
+ document.documentElement.toggleAttribute('data-calm',!!v);}
+function renderCalmbar(){
+ var el=document.getElementById('calmbar');if(!el)return;var on=getCalm();
+ el.innerHTML='<span class="lbl">'+HEAD[lang].calm+':</span>'
+  +'<button class="calmbtn'+(!on?' on':'')+'" data-v="0">'+HEAD[lang].calmOff+'</button>'
+  +'<button class="calmbtn'+(on?' on':'')+'" data-v="1">'+HEAD[lang].calmOn+'</button>';
+ el.querySelectorAll('.calmbtn').forEach(function(b){b.onclick=function(){setCalm(b.dataset.v==='1');renderCalmbar();};});
+}
 function renderTimebar(){
  var el=document.getElementById('timebar');if(!el)return;var cur=getTime();
  var opts=[['',HEAD[lang].livre],['10','10'],['15','15'],['20','20']];
@@ -165,8 +177,9 @@ function render(){
  document.getElementById('ageP3').classList.toggle('on',profile==='p3');
  document.getElementById('ageP5').classList.toggle('on',profile==='p5');
  document.documentElement.setAttribute('data-profile',profile);
- renderToday();renderStickers();renderTimebar();
+ renderToday();renderStickers();renderTimebar();renderCalmbar();
 }
+if(getCalm())document.documentElement.setAttribute('data-calm','');
 document.getElementById('langBtn').onclick=function(){lang=lang==='pt'?'en':'pt';setLang(lang);render();};
 document.getElementById('infoBtn').onclick=function(){document.getElementById('aboutSheet').classList.add('show');};
 document.getElementById('closeAbout').onclick=function(){document.getElementById('aboutSheet').classList.remove('show');};

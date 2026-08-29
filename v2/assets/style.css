@@ -207,3 +207,106 @@ h1{font-size:clamp(38px,11vw,66px);font-weight:700;color:var(--terra);line-heigh
   .homemascote,.mascote-reax.ok,.mascote-reax.no{animation:none}
   .mascote-reax.ok,.mascote-reax.no{opacity:1;transform:none}
 }
+
+/* ============================================================
+   Bibel · sistema de design (Onda 1)
+   marca própria, separada da Patente. redefine os tokens,
+   dá linguagem de clay às superfícies, escala de tipo e espaço,
+   modo calmo (baixo estímulo) e a interação assinatura (carimbo).
+   ============================================================ */
+
+:root{
+  /* paleta Bibel: creme quente, tangerina, e 5 cores de brinquedo em harmonia */
+  --papel:#fdf4e8;      /* fundo base (mantém o nome pra compatibilidade) */
+  --bibel-bg:#fdf4e8; --bibel-bg2:#f6e4cc;
+  --card:#fffdf9;       /* superfície */
+  --tinta:#33291f;      /* tinta quase preta, quente */
+  --ink-soft:#8a7a64;
+  --coral:#f2683c;      /* cor de marca */
+  --terra:#c14a24;      /* marca escura, títulos */
+  --verde:#38b676; --leaf:#38b676;
+  --azul:#37a0f4;  --sky:#37a0f4;
+  --amarelo:#ffb12e; --sun:#ffb12e;
+  --rosa:#ff5d8f; --berry:#ff5d8f;
+  --grape:#7c5cd6;
+  --line:#ecdcc4;                       /* borda quente no lugar do #efe7d8 */
+  --sombra:0 8px 0 #ecd9bf;
+  --clay:0 6px 0 #ecd9bf, 0 16px 26px -10px rgba(120,60,25,.30);
+  --clay-press:0 2px 0 #ecd9bf, 0 8px 14px -8px rgba(120,60,25,.26);
+  --r-lg:28px; --r-md:20px; --r-sm:14px;
+  --ease-spring:cubic-bezier(.2,.9,.29,1.35);
+  --ease-out:cubic-bezier(.2,.8,.25,1);
+}
+
+body{
+  background:radial-gradient(125% 90% at 50% 0%, var(--bibel-bg) 0%, var(--bibel-bg2) 100%) fixed;
+  color:var(--tinta);
+}
+h1{letter-spacing:-.015em}
+.tag{font-size:clamp(15px,4.2vw,18px);font-weight:500}
+.hint{font-weight:600;color:var(--ink-soft)}
+
+/* superfícies com linguagem de clay: bordas quentes, cantos gordos, sombra macia */
+.tile,.opt,.lvl,.pill,.iconbtn,.menu-home,.info-btn,.lang-btn,
+.timebtn,.agebtn,.prompt-say,.tracewrap svg{
+  border-color:var(--line);background:var(--card);
+}
+.tile,.lvl{border-radius:var(--r-md);box-shadow:var(--clay)}
+.opt{border-radius:var(--r-md);box-shadow:var(--clay)}
+.tile:active,.lvl:active,.opt:active{transform:translateY(3px);box-shadow:var(--clay-press)}
+.lvl .num{background:var(--coral)}
+.lvl.done .num{background:var(--leaf)}
+.opt.ok{border-color:var(--leaf);background:#e9f9f0}
+.opt.bad{border-color:var(--berry);background:#ffedf2}
+.card .front{border-color:var(--line)}
+.card .back{background:linear-gradient(150deg,var(--coral),#f5936a)}
+.card.matched .front{border-color:var(--leaf);background:#e9f9f0}
+.wincard,.sheetcard,.restcard{border-radius:var(--r-lg);box-shadow:var(--clay)}
+.btn.primary{background:var(--leaf)}
+.btn.ghost{background:var(--bibel-bg2);color:var(--tinta)}
+.prompt-say{border:2px solid var(--line);box-shadow:var(--clay-press)}
+.big-letter,.bigword{color:var(--coral)}
+.slot{border-bottom-color:var(--coral)}
+.slot.filled{border-bottom-color:var(--leaf)}
+.tguide{fill:#f1e2c9}
+.tline{stroke:var(--coral)} .tline.done{stroke:var(--leaf)}
+.tdot{stroke:var(--coral)} .tdot.hit{fill:var(--leaf);stroke:var(--leaf)}
+.restcard h2,.sheetcard h2,.wincard h2{color:var(--terra)}
+.figline{color:var(--terra)}
+
+/* interação assinatura: o acerto ganha um CARIMBO com a carinha da mascote */
+.opt{position:relative;overflow:visible}
+.stamp{position:absolute;top:-10px;right:-10px;width:34px;height:34px;border-radius:50%;
+  pointer-events:none;filter:drop-shadow(0 2px 4px rgba(90,40,15,.35));
+  animation:stampin .42s var(--ease-spring) both}
+.stamp .mascote{width:100%;height:100%}
+@keyframes stampin{
+  0%{transform:scale(2.6) rotate(-20deg);opacity:0}
+  55%{opacity:1}
+  70%{transform:scale(.86) rotate(-6deg)}
+  100%{transform:scale(1) rotate(-7deg);opacity:1}
+}
+
+/* modo calmo: baixo estímulo, para mãozinha que se distrai fácil.
+   sem movimento, sem confete, cor mais sóbria, alvo maior. */
+:root[data-calm]{
+  --bibel-bg:#f5f0e8; --bibel-bg2:#f5f0e8;
+  --coral:#b85f3d; --terra:#9c4b2c; --leaf:#4a9d73; --azul:#5b93c4;
+  --amarelo:#d9a441; --rosa:#c96f92; --grape:#6f66a8;
+  --clay:0 3px 0 #e6ddce; --clay-press:0 2px 0 #e6ddce;
+}
+:root[data-calm] body{background:var(--bibel-bg)}
+:root[data-calm] .options .opt,:root[data-calm] .board .card,:root[data-calm] #stage>.prompt,
+:root[data-calm] .game.active #stage,:root[data-calm] .home,:root[data-calm] .win.show .wincard,
+:root[data-calm] .win.show .wincard .em,:root[data-calm] .lvl.done .star,
+:root[data-calm] .homemascote,:root[data-calm] .mascote-reax,
+:root[data-calm] .prompt-say,:root[data-calm] .stamp{animation:none!important;transform:none!important;opacity:1!important}
+:root[data-calm] #confetti,:root[data-calm] .spark,:root[data-calm] .stamp{display:none!important}
+:root[data-calm] .opt{min-height:66px}
+
+/* controle de modo calmo no hub, mesma pegada da barra de tempo */
+.calmbar{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.calmbar .lbl{font-size:13px;color:var(--ink-soft);font-weight:600}
+.calmbtn{border:3px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;
+  font-family:inherit;font-weight:700;font-size:13px;color:var(--ink-soft);cursor:pointer}
+.calmbtn.on{background:var(--coral);color:#fff;border-color:var(--coral)}

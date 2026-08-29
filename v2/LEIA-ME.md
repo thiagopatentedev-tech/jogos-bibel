@@ -44,6 +44,13 @@ Ligar os pontos na ordem para traçar um número, letra ou forma por cima de um 
 
 Jogo piloto: [`tracar-numeros/`](tracar-numeros/).
 
+## Onda 1 do redesign "estado da arte"
+
+- **Marca própria da Bibel.** Paleta e sombras separadas da Patente: creme quente, tangerina de marca, cinco cores de brinquedo em harmonia. Tokens no topo do bloco "sistema de design" em `assets/style.css`.
+- **Linguagem de clay.** Superfícies com borda quente, canto gordo e sombra macia (`--clay`), no lugar da sombra dura deslocada.
+- **Modo calmo** (baixo estímulo). Botão no hub, guardado em `bibel_calm`. Liga: sem confete, sem partícula, sem movimento, cor mais sóbria, alvo de toque maior. Some do `<html>` como `data-calm` e vale em todos os jogos.
+- **Interação assinatura: o carimbo.** No acerto, a carinha da mascote é "carimbada" no botão com um baque de mola. Desligada no modo calmo.
+
 ## Chaves de `localStorage` usadas
 
 Compartilhadas com a v1 onde faz sentido (idioma, turma, perfil de idade, progresso por jogo). Novas da v2:
@@ -51,5 +58,6 @@ Compartilhadas com a v1 onde faz sentido (idioma, turma, perfil de idade, progre
 - `bibel_screentime` — `""` | `"10"` | `"15"` | `"20"` (minutos de tela por dia)
 - `bibel_playlog` — `{ "date": "AAAA-M-D", "secs": N }`, zera sozinho a cada dia
 - `bibel_stickers` — `["cores","rimas",...]`, um slug por jogo concluído
+- `bibel_calm` — `"1"` quando o modo calmo está ligado
 
 Tudo por aparelho, nada sai do navegador, nenhuma conta.
