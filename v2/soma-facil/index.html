@@ -1,0 +1,33 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/><title>Soma Fácil · Jogos da Bibel</title><meta name="description" content="conte e responda. Jogo de alfabetização feito com IA."><meta property="og:title" content="Soma Fácil · Jogos da Bibel"><meta property="og:description" content="conte e responda. Jogo de alfabetização feito com IA."><meta property="og:image" content="https://www.thiagopatente.com.br/jogo/og.png"><meta property="og:type" content="website"><meta property="og:url" content="https://www.thiagopatente.com.br/jogo/soma-facil/"><link rel="canonical" href="https://www.thiagopatente.com.br/jogo/soma-facil/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.thiagopatente.com.br/jogo/og.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/style.css"></head><body>
+<a class="menu-home" href="../" title="Menu" aria-label="Voltar ao menu" data-menu>🏠</a>
+<button class="lang-btn" id="langBtn" aria-label="Português / English"><span class="flag pt on"></span><span class="flag en"></span></button>
+<button class="info-btn" id="infoBtn" aria-label="Sobre">ⓘ</button>
+<div class="wrap">
+  <section class="home" id="home">
+    <div class="kicker" id="kicker"></div>
+    <h1 id="h1"></h1>
+    <div class="tag" id="tag"></div>
+    <div class="hero" id="hero"></div>
+    <div class="hint" id="hint"></div>
+    <div class="levels" id="levels"></div>
+    <div class="homebtns">
+      <button class="pill" id="voiceBtn"><span class="sw"></span> Falar</button>
+      <button class="pill" id="shareBtn">↗ Compartilhar</button>
+    </div>
+  </section>
+  <section class="game" id="game">
+    <div class="topbar">
+      <div class="scorebox"><span class="lvlname" id="lvlName"></span><span class="stats"><span id="paresInfo"></span> · <span id="tempoInfo">⏱ 00:00</span></span></div>
+      <button class="iconbtn" id="againBtn" title="De novo">🔄</button>
+    </div>
+    <div id="stage"></div>
+  </section>
+</div>
+<div class="win" id="win"><div class="wincard"><div class="em" id="winEmoji">🎉</div><div id="winMascote" style="margin:2px 0 8px"></div><h2 id="winH">Você conseguiu!</h2><p id="winMsg"></p><button class="btn primary" id="nextBtn">Próximo nível ➜</button><button class="btn ghost" id="homeBtn">Escolher nível</button></div></div>
+<div class="sheet" id="about"><div class="sheetcard"><button class="closex" id="aboutClose">✕</button><div class="big" id="aboutEmoji">🎈</div><h2 id="aboutTitle"></h2><p id="aboutTxt"></p><a class="sitelink" href="https://www.thiagopatente.com.br" target="_blank" rel="noopener">🌐 www.thiagopatente.com.br</a></div></div>
+<div id="confetti"></div>
+<script>window.__G__={"slug": "soma-facil", "turma": "p2", "engine": "choice", "hero": "➕", "levels": [{"nome": {"pt": "Nível 1", "en": "Level 1"}, "sub": {"pt": "até 5", "en": "up to 5"}, "rounds": [{"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🍎🍎 + 🍎"}, "opts": [{"t": "3", "correct": true}, {"t": "2", "correct": false}, {"t": "4", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "⭐ + ⭐"}, "opts": [{"t": "2", "correct": true}, {"t": "1", "correct": false}, {"t": "3", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🐶🐶 + 🐶🐶"}, "opts": [{"t": "4", "correct": true}, {"t": "3", "correct": false}, {"t": "5", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🎈 + 🎈🎈"}, "opts": [{"t": "3", "correct": true}, {"t": "2", "correct": false}, {"t": "4", "correct": false}]}]}, {"nome": {"pt": "Nível 2", "en": "Level 2"}, "sub": {"pt": "até 8", "en": "up to 8"}, "rounds": [{"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🍌🍌🍌 + 🍌🍌"}, "opts": [{"t": "5", "correct": true}, {"t": "4", "correct": false}, {"t": "6", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🔵🔵 + 🔵🔵🔵🔵"}, "opts": [{"t": "6", "correct": true}, {"t": "5", "correct": false}, {"t": "7", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🍓🍓🍓🍓 + 🍓"}, "opts": [{"t": "5", "correct": true}, {"t": "4", "correct": false}, {"t": "6", "correct": false}]}]}, {"nome": {"pt": "Nível 3", "en": "Level 3"}, "sub": {"pt": "tirando", "en": "subtracting"}, "rounds": [{"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🍎🍎🍎 − 🍎"}, "opts": [{"t": "2", "correct": true}, {"t": "1", "correct": false}, {"t": "3", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "⭐⭐⭐⭐ − ⭐⭐"}, "opts": [{"t": "2", "correct": true}, {"t": "1", "correct": false}, {"t": "3", "correct": false}]}, {"say": {"pt": "Quanto é?", "en": "How much is it?"}, "show": {"k": "word", "v": "🐟🐟🐟🐟🐟 − 🐟🐟"}, "opts": [{"t": "3", "correct": true}, {"t": "2", "correct": false}, {"t": "4", "correct": false}]}]}], "unit": {"pt": "acertos", "en": "correct"}, "i18n": {"pt": {"title": "Soma Fácil", "kicker": "Jogos da Bibel", "tag": "conte e responda", "hint": "⚽ escolha um nível", "about": "Feito por <b>Thiago Patente</b>, para as duas filhas, e construído com inteligência artificial."}, "en": {"title": "Easy Addition", "kicker": "Jogos da Bibel", "tag": "count and answer", "hint": "⚽ choose a level", "about": "Made by <b>Thiago Patente</b> for his two daughters, built with artificial intelligence."}}};</script>
+<script src="../assets/mascotes.js"></script>
+<script src="../assets/glyph.js"></script>
+<script src="../assets/engine.js"></script>
+</body></html>
