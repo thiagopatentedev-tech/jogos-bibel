@@ -9,3 +9,6 @@ desktop.ini
 # rascunhos locais
 /rascunho/
 /_local/
+
+# contexto interno de negocio, nao publicar
+/contexto.md
