@@ -217,6 +217,13 @@ function promptHtml(r){var s=r.show;if(!s)return '';
  if(s.k==='emoji'){var solo=Array.from(String(T(s.v))).length<=2;return '<div class="emoji-xl'+(solo?' solo':'')+'">'+G_(T(s.v))+'</div>'+(s.w?'<div class="promptword">'+T(s.w)+'</div>':'');}
  if(s.k==='word')return '<div class="bigword">'+T(s.v)+'</div>';
  if(s.k==='count'){var h='<div class="countrow">';var v=G_(T(s.v));for(var i=0;i<s.n;i++)h+='<span>'+v+'</span>';return h+'</div>';}
+ if(s.k==='tenframe'){  // grade de 10 (ou s.total) pra "faz dez" e parcela escondida
+  var tot=s.total||10,fil=s.fill||0,g='<div class="tenframe"'+(tot>10?' style="grid-template-columns:repeat(5,1fr)"':'')+'>';
+  for(var c=0;c<tot;c++)g+='<span class="tf'+(c<fil?' on':'')+'"></span>';
+  g+='</div>';
+  if(s.eq)g+='<div class="tfeq">'+T(s.eq)+'</div>';
+  return g;
+ }
  return '';}
 function optHtml(o){if(o.emoji)return '<span class="oe"'+(o.scale?' style="display:inline-block;transform:scale('+o.scale+')"':'')+'>'+G_(T(o.emoji))+'</span>'+(o.t?'<span class="ol">'+T(o.t)+'</span>':'');if(o.letter)return '<span class="big-letter">'+T(o.letter)+'</span>';return '<span class="ol" style="font-size:30px">'+T(o.t)+'</span>';}
 
@@ -410,12 +417,64 @@ function engineDrag(i){
  show();
 }
 
+/* motor "read": juntar sons/silabas na ordem e ouvir a palavra se formar (blend).
+   dado do round: { say, parts:{pt:["ca","sa"],en:["c","a","t"]}, word:{pt:"casa",en:"cat"}, pic:{pt:"🏠",en:"🐱"} }
+   toca no pedaco certo (proximo da esquerda pra direita); no fim varre os sons e diz a palavra. */
+function engineRead(i){
+ var lv=curLevels()[i];var rounds=shuffle(lv.rounds.slice());var ri=0;startTimer();
+ function show(){
+  if(ri>=rounds.length){finishLevel();return;}
+  setStats(ri,rounds.length);var r=rounds[ri];var sayTxt=T(r.say);
+  var parts=T(r.parts);var pool=shuffle(parts.slice());var placed=0;
+  var h='<div class="prompt slim">'+promptCaption(sayTxt)+'</div>'
+   +(r.pic?'<div class="readpic" aria-hidden="true">'+G_(T(r.pic))+'</div>':'')
+   +'<div class="slots read">';
+  parts.forEach(function(_,k){h+='<span class="slot" data-i="'+k+'"></span>';});
+  h+='</div><div class="options readtray">';
+  pool.forEach(function(p){h+='<button class="opt sylab" data-v="'+p+'"><span class="ol">'+p+'</span></button>';});
+  h+='</div>';stageEl.innerHTML=h;say(sayTxt);wireRepeat(sayTxt);
+  var picEl=stageEl.querySelector('.readpic');
+  stageEl.querySelectorAll('.opt.sylab').forEach(function(btn){
+   btn.onclick=function(){
+    if(btn.classList.contains('done'))return;
+    if(btn.dataset.v===String(parts[placed])){
+     var sl=stageEl.querySelector('.slot[data-i="'+placed+'"]');
+     sl.textContent=btn.dataset.v;sl.classList.add('filled');btn.classList.add('ok','done');
+     var rc=btn.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);
+     SFX.good();say(String(btn.dataset.v));placed++;
+     if(placed>=parts.length){
+      var slots=stageEl.querySelectorAll('.slot');var d=0;
+      (function sweep(){
+       if(d<slots.length){
+        var cur=d;slots[cur].classList.add('lit');say(String(parts[cur]));
+        setTimeout(function(){slots[cur].classList.remove('lit');},420);
+        d++;setTimeout(sweep,470);return;
+       }
+       setTimeout(function(){
+        if(picEl)picEl.classList.add('reveal');
+        reax('ok');say(T(r.word));
+        ri++;setStats(ri,rounds.length);setTimeout(show,1300);
+       },280);
+      })();
+     }
+    }else{
+     state.err++;btn.classList.add('bad');shake(btn);reax('no');SFX.miss();
+     say(pt_('tentaDeNovo'));
+     setTimeout(function(){btn.classList.remove('bad');},450);
+    }
+   };
+  });
+ }
+ show();
+}
+
 function engineStart(i){
  if(G.engine==='memory')engineMemory(i);
  else if(G.engine==='order')engineOrder(i);
  else if(G.engine==='trace')engineTrace(i);
  else if(G.engine==='drag')engineDrag(i);
- else engineChoice(i);
+ else if(G.engine==='read')engineRead(i);
+ else engineChoice(i);  // choice tambem atende "math" (faz dez / parcela escondida via show.k="tenframe")
 }
 
 /* --- boot --- */

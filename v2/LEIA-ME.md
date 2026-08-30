@@ -15,7 +15,7 @@ Abrir: sirva a raiz do repositório (`python -m http.server`) e vá em `/v2/`.
 | Tempo de tela | não tinha | ajuste opcional no hub (livre / 10 / 15 / 20 min), guardado em `localStorage`; ao estourar, tela gentil de "hora de descansar" com liberação por adulto |
 | Recompensa | estrela por nível | + figurinha por jogo concluído, numa prateleira no hub (`localStorage["bibel_stickers"]`) |
 | Hub | lista + filtro de turma | + "jogo de hoje" (escolha fixa por data) + prateleira de figurinhas + controle de tempo |
-| Motores | choice, memory, order | + **trace** e **drag** |
+| Motores | choice, memory, order | + **trace**, **drag**, **read** e **math** |
 
 Nenhuma mudança no formato do dado dos jogos que já existiam. Todo o resto é `assets/engine.js` + `assets/style.css` (cópias da v1 com as adições) e o `assets/glyph.js` novo.
 
@@ -67,6 +67,57 @@ Arrastar cada figura pro cesto que a aceita. Bom para classificar (fruta x brinq
 - Funciona com toque e com mouse.
 
 Jogo piloto: [`guarda-as-coisas/`](guarda-as-coisas/).
+
+## Motor novo: `read` (juntar sons / blend)
+
+Tocar nos pedaços de som na ordem, da esquerda pra direita, e ouvir a palavra se formar. No fim, o motor varre os sons um a um e diz a palavra inteira, e a figura da palavra é revelada.
+
+```json
+{
+  "engine": "read",
+  "unit": { "pt": "palavras", "en": "words" },
+  "levels": [
+    { "nome": {"pt":"Nível 1","en":"Level 1"}, "sub": {"pt":"dois pedaços","en":"two sounds"}, "rounds": [
+      { "say":  {"pt":"Junta os sons","en":"Blend the sounds"},
+        "parts": {"pt":["ca","sa"], "en":["c","a","t"]},
+        "word":  {"pt":"casa", "en":"cat"},
+        "pic":   {"pt":"🏠", "en":"🐱"} }
+    ]}
+  ]
+}
+```
+
+- `parts`: os pedaços na ordem certa (a ordem é a resposta, o motor não embaralha o alvo). Podem ser sílabas (PT) ou fonemas/dígrafos como `sh`, `ck` (EN). Chips repetidos funcionam.
+- `word`: a palavra falada no fim.
+- `pic`: figura da palavra, apagada até completar, então revelada.
+- Toque errado sacode o chip; só o próximo som certo é aceito (blend da esquerda pra direita).
+
+Jogo piloto: [`junta-os-sons/`](junta-os-sons/). Conteúdo dos níveis 4-5 é rascunho.
+
+## Motor novo: `math` (faz dez / número escondido)
+
+Reaproveita o motor `choice` com um novo tipo de estímulo: a grade de dez (`show.k = "tenframe"`). A criança olha quantos quadradinhos faltam e toca no número.
+
+```json
+{
+  "engine": "math",
+  "unit": { "pt": "acertos", "en": "correct" },
+  "levels": [
+    { "nome": {"pt":"Nível 1","en":"Level 1"}, "sub": {"pt":"quase dez","en":"almost ten"}, "rounds": [
+      { "say":  {"pt":"Quantos faltam pra dez?","en":"How many to make ten?"},
+        "show": {"k":"tenframe", "fill":8, "eq":"8 + ? = 10"},
+        "opts": [ {"t":"2","correct":true}, {"t":"1"}, {"t":"3"} ] }
+    ]}
+  ]
+}
+```
+
+- `show.fill`: quadradinhos já preenchidos. `show.total`: tamanho da grade (padrão 10; use 12 ou 13 pra "passa de dez").
+- `show.eq`: a conta escrita embaixo da grade (`?` no lugar do número procurado).
+- `opts` funciona igual ao `choice`: um `correct`, o resto distrator. `grid: true` no round pra 4 opções.
+- Todo o comportamento do `choice` vale: dica progressiva, carimbo, som, empurrão adaptativo.
+
+Jogo piloto: [`faz-dez/`](faz-dez/). Conteúdo é rascunho pra curadoria do Thiago.
 
 ## Onda 1 do redesign "estado da arte"
 
