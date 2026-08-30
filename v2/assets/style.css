@@ -146,13 +146,13 @@ h1{font-size:clamp(38px,11vw,66px);font-weight:700;color:var(--terra);line-heigh
 
 /* instrucao escrita + tocar pra ouvir de novo */
 .prompt.slim{min-height:0;margin:2px 0 12px}
-.prompt-say{margin-top:10px;border:2px solid #efe7d8;background:#fff;border-radius:999px;
-  padding:8px 16px;font-family:inherit;font-size:16px;font-weight:600;color:var(--tinta);
-  cursor:pointer;display:inline-flex;align-items:center;gap:8px;max-width:92%;
+.prompt-say{margin-top:10px;border:2px solid #efe7d8;background:#fff;border-radius:20px;
+  padding:9px 18px;font-family:inherit;font-size:16px;font-weight:600;color:var(--tinta);
+  cursor:pointer;display:inline-flex;align-items:center;gap:9px;max-width:min(92%,440px);
   box-shadow:0 3px 0 rgba(124,36,16,.10)}
 .prompt-say:active{transform:translateY(2px)}
 .prompt-say .spk{font-size:16px;flex:none}
-.prompt-say .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prompt-say .txt{white-space:normal;line-height:1.3;text-align:left}
 :root[data-profile="p3"] .prompt-say{font-size:18px;padding:10px 18px}
 
 /* mascote na home */
@@ -374,6 +374,12 @@ h1{letter-spacing:-.015em}
 .dragitem.bad{border-color:var(--sun)}
 :root[data-profile="p3"] .bucket{width:118px;height:118px}
 :root[data-profile="p3"] .dragitem .oe{font-size:48px}
+/* tocar pra escolher a figura, depois tocar no cesto (alternativa ao arraste) */
+.dragitem.sel{border-color:var(--coral);box-shadow:0 0 0 4px rgba(242,104,60,.28);transform:translateY(-3px) scale(1.06)}
+.bucket.want{border-color:var(--coral);animation:bktwant 1.1s ease-in-out infinite}
+@keyframes bktwant{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+:root[data-calm] .bucket.want{animation:none}
+:root[data-calm] .dragitem.sel{transform:none}
 
 /* ===================== layout: usar a tela toda ===================== */
 /* antes o conteudo do jogo ficava espremido no topo e sobrava meia tela vazia.

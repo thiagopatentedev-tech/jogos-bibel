@@ -364,11 +364,13 @@ function engineTrace(i){
  show();
 }
 
-/* motor "drag": arrastar cada figura pro cesto que a aceita.
+/* motor "drag": pôr cada figura no cesto que a aceita. Funciona de dois jeitos:
+   arrastar a figura pro cesto, ou tocar na figura e depois no cesto.
    dado do round: { say, buckets:[{emoji,accept}], items:[{emoji,kind}] } */
 function engineDrag(i){
  var lv=curLevels()[i];var rounds=shuffle(lv.rounds.slice());var ri=0;startTimer();
- function ptxy(e){var t=e.touches&&e.touches[0]||e;return {x:t.clientX,y:t.clientY};}
+ // touchend nao traz e.touches; precisa de changedTouches pra saber onde o dedo soltou
+ function ptxy(e){var t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;return {x:t.clientX,y:t.clientY};}
  function show(){
   if(ri>=rounds.length){finishLevel();return;}
   setStats(ri,rounds.length);var r=rounds[ri];var sayTxt=T(r.say);
@@ -378,40 +380,65 @@ function engineDrag(i){
   h+='</div><div class="dragtray">';
   items.forEach(function(it,k){h+='<button class="dragitem" data-k="'+k+'" data-kind="'+it.kind+'"><span class="oe">'+G_(T(it.emoji))+'</span></button>';});
   h+='</div>';stageEl.innerHTML=h;say(sayTxt);wireRepeat(sayTxt);
+  var buckets=stageEl.querySelectorAll('.bucket');
+  var sel=null;
+  function clearSel(){if(sel){sel.classList.remove('sel');sel=null;}stageEl.querySelectorAll('.bucket').forEach(function(b){b.classList.remove('want');});}
+  function place(el,b){
+   el.classList.add('placed');el.style.transform='';el.classList.remove('grab','sel');
+   b.classList.add('got');setTimeout(function(){b.classList.remove('got');},400);
+   var rc=b.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();
+   if(sel===el)sel=null;
+   left--;if(left<=0){ri++;setStats(ri,rounds.length);setTimeout(show,700);}
+  }
+  function reject(el){
+   el.style.transform='';el.classList.add('bad');shake(el);reax('no');SFX.miss();
+   setTimeout(function(){el.classList.remove('bad');},400);
+  }
+  function drop(el,x,y){
+   var hit=null;
+   buckets.forEach(function(b){var rc=b.getBoundingClientRect();if(x>=rc.left&&x<=rc.right&&y>=rc.top&&y<=rc.bottom)hit=b;});
+   if(hit&&hit.dataset.accept===el.dataset.kind)place(el,hit);
+   else if(hit)reject(el);
+   else el.style.transform='';  // largou fora de qualquer cesto: so volta
+  }
+  buckets.forEach(function(b){
+   b.addEventListener('click',function(){
+    if(!sel)return;
+    if(b.dataset.accept===sel.dataset.kind)place(sel,b);
+    else{reject(sel);}
+    clearSel();
+   });
+  });
   stageEl.querySelectorAll('.dragitem').forEach(function(el){
-   var sx,sy,drag=false;
+   var sx,sy,on=false,moved=false;
    function down(e){
     if(el.classList.contains('placed'))return;
-    var p=ptxy(e);sx=p.x;sy=p.y;drag=true;el.classList.add('grab');
+    var p=ptxy(e);sx=p.x;sy=p.y;on=true;moved=false;
     document.addEventListener('mousemove',move);document.addEventListener('mouseup',up);
     document.addEventListener('touchmove',move,{passive:false});document.addEventListener('touchend',up);
-    if(e.cancelable)e.preventDefault();
    }
    function move(e){
-    if(!drag)return;var p=ptxy(e);
-    el.style.transform='translate('+(p.x-sx)+'px,'+(p.y-sy)+'px) scale(1.12)';
+    if(!on)return;var p=ptxy(e);var dx=p.x-sx,dy=p.y-sy;
+    if(!moved&&dx*dx+dy*dy<36)return;  // toque parado ainda nao e arraste
+    moved=true;el.classList.add('grab');
+    el.style.transform='translate('+dx+'px,'+dy+'px) scale(1.12)';
     if(e.cancelable)e.preventDefault();
    }
    function up(e){
-    drag=false;el.classList.remove('grab');
+    on=false;el.classList.remove('grab');
     document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);
     document.removeEventListener('touchmove',move);document.removeEventListener('touchend',up);
-    var p=ptxy(e),hit=null;
-    stageEl.querySelectorAll('.bucket').forEach(function(b){
-     var rc=b.getBoundingClientRect();
-     if(p.x>=rc.left&&p.x<=rc.right&&p.y>=rc.top&&p.y<=rc.bottom)hit=b;
-    });
-    if(hit&&hit.dataset.accept===el.dataset.kind){
-     el.classList.add('placed');el.style.transform='';
-     hit.classList.add('got');setTimeout(function(){hit.classList.remove('got');},400);
-     var rc=hit.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();
-     left--;if(left<=0){ri++;setStats(ri,rounds.length);setTimeout(show,700);}
-    }else{
-     el.style.transform='';el.classList.add('bad');shake(el);reax('no');SFX.miss();
-     setTimeout(function(){el.classList.remove('bad');},400);
-    }
+    if(!moved)return;  // foi toque, nao arraste: o click cuida de selecionar
+    var p=ptxy(e);drop(el,p.x,p.y);
    }
-   el.addEventListener('mousedown',down);el.addEventListener('touchstart',down,{passive:false});
+   el.addEventListener('mousedown',down);el.addEventListener('touchstart',down,{passive:true});
+   el.addEventListener('click',function(){
+    if(moved){moved=false;return;}  // acabou de arrastar, ignora o click sintetico
+    if(el.classList.contains('placed'))return;
+    if(sel===el){clearSel();return;}
+    clearSel();sel=el;el.classList.add('sel');
+    buckets.forEach(function(b){b.classList.add('want');});
+   });
   });
  }
  show();
