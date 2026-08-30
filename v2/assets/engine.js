@@ -10,8 +10,8 @@
    Nenhuma mudanca no formato do dado. Idioma BR/EN via "bibel_lang", compartilhado com a v1. */
 (function(){
 var UI={
- pt:{falar:'Falar',somOff:'Som desligado',vamosJogar:'Vamos jogar!',achePares:'Ache os pares!',compartilhar:'↗ Compartilhar',linkCopiado:'✓ Link copiado',vocêConseguiu:'Você conseguiu!',muitoBem:'Muito bem!',terminouTudo:'Você terminou o jogo todo!',parabens:'Parabéns!',proximoNivel:'Próximo nível ➜',escolherNivel:'Escolher nível',tentaDeNovo:'Tenta de novo!',menu:'Menu',deNovo:'De novo',sobre:'Sobre',ouvir:'ouvir de novo',ganhouFig:'Ganhou uma figurinha!',descansar:'Hora de descansar os olhos',descansarSub:'A gente brinca mais depois. Chama um adulto.',souAdulto:'sou adulto, liberar',shareTxt:function(t){return t+', um joguinho de alfabetização da Bibel.';}},
- en:{falar:'Speak',somOff:'Sound off',vamosJogar:"Let's play!",achePares:'Find the pairs!',compartilhar:'↗ Share',linkCopiado:'✓ Link copied',vocêConseguiu:'You did it!',muitoBem:'Great job!',terminouTudo:'You finished the whole game!',parabens:'Congrats!',proximoNivel:'Next level ➜',escolherNivel:'Choose level',tentaDeNovo:'Try again!',menu:'Menu',deNovo:'Again',sobre:'About',ouvir:'hear it again',ganhouFig:'You earned a sticker!',descansar:'Time to rest your eyes',descansarSub:"We'll play more later. Ask a grown-up.",souAdulto:"I'm a grown-up, unlock",shareTxt:function(t){return t+", a learning game from Jogos da Bibel.";}}
+ pt:{falar:'Falar',somOff:'Som desligado',vamosJogar:'Vamos jogar!',achePares:'Ache os pares!',compartilhar:'↗ Compartilhar',linkCopiado:'✓ Link copiado',vocêConseguiu:'Você conseguiu!',muitoBem:'Muito bem!',terminouTudo:'Você terminou o jogo todo!',parabens:'Parabéns!',proximoNivel:'Próximo nível ➜',escolherNivel:'Escolher nível',tentaDeNovo:'Tenta de novo',quase:'Quase!',olhaAqui:'Olha aqui, ó',menu:'Menu',deNovo:'De novo',sobre:'Sobre',ouvir:'ouvir de novo',ganhouFig:'Ganhou uma figurinha!',descansar:'Hora de descansar os olhos',descansarSub:'A gente brinca mais depois. Chama um adulto.',souAdulto:'sou adulto, liberar',shareTxt:function(t){return t+', um joguinho de alfabetização da Bibel.';}},
+ en:{falar:'Speak',somOff:'Sound off',vamosJogar:"Let's play!",achePares:'Find the pairs!',compartilhar:'↗ Share',linkCopiado:'✓ Link copied',vocêConseguiu:'You did it!',muitoBem:'Great job!',terminouTudo:'You finished the whole game!',parabens:'Congrats!',proximoNivel:'Next level ➜',escolherNivel:'Choose level',tentaDeNovo:'Try again',quase:'Almost!',olhaAqui:'Look here',menu:'Menu',deNovo:'Again',sobre:'About',ouvir:'hear it again',ganhouFig:'You earned a sticker!',descansar:'Time to rest your eyes',descansarSub:"We'll play more later. Ask a grown-up.",souAdulto:"I'm a grown-up, unlock",shareTxt:function(t){return t+", a learning game from Jogos da Bibel.";}}
 };
 function getLang(){try{return localStorage.getItem('bibel_lang')||'pt';}catch(e){return 'pt';}}
 function setLang(l){try{localStorage.setItem('bibel_lang',l);}catch(e){}}
@@ -54,6 +54,27 @@ function say(t){
   speechSynthesis.cancel();speechSynthesis.speak(u);
  }catch(e){}
 }
+
+/* --- efeitos sonoros (Web Audio, sem arquivo). Seguem o botao de som e ficam mudos no modo calmo. --- */
+var SFX=(function(){
+ var ctx=null;
+ function ac(){try{if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();}catch(e){ctx=null;}return ctx;}
+ function tone(freq,start,dur,type,vol){
+  var c=ac();if(!c)return;
+  var o=c.createOscillator(),g=c.createGain(),t0=c.currentTime+start;
+  o.type=type||'sine';o.frequency.value=freq;
+  g.gain.setValueAtTime(0,t0);
+  g.gain.linearRampToValueAtTime(vol||.11,t0+.012);
+  g.gain.exponentialRampToValueAtTime(.0001,t0+dur);
+  o.connect(g);g.connect(c.destination);o.start(t0);o.stop(t0+dur+.03);
+ }
+ function on(){return state.voice&&!calm();}
+ return {
+  good:function(){if(!on())return;tone(660,0,.13,'sine',.10);tone(880,.09,.17,'sine',.10);},
+  miss:function(){if(!on())return;tone(300,0,.16,'sine',.08);tone(232,.08,.19,'sine',.07);},
+  win:function(){if(!on())return;[523,659,784,1047].forEach(function(f,i){tone(f,i*.11,.22,'triangle',.09);});}
+ };
+})();
 
 /* --- Playlearning: instrucao escrita + tocar pra repetir --- */
 function promptCaption(txt){
@@ -183,7 +204,7 @@ function finishLevel(){
  $('nextBtn').style.display=last?'none':'block';
  $('nextBtn').classList.toggle('nudge', !last && (state.err||0)===0);  // empurrao adaptativo: acertou tudo, sobe
  $('homeBtn').textContent=pt_('escolherNivel');
- winEl.classList.add('show');confetti();say(last?pt_('parabens'):pt_('muitoBem'));
+ winEl.classList.add('show');confetti();SFX.win();say(last?pt_('parabens'):pt_('muitoBem'));
 }
 function goHome(){stopTimer();RG.stop();gameEl.classList.remove('active');homeEl.style.display='flex';renderHome();window.scrollTo(0,0);}
 
@@ -208,18 +229,30 @@ function engineChoice(i){
   var opts=r.shuffle===false?r.opts:shuffle(r.opts.slice());
   opts.forEach(function(o,k){h+='<button class="opt" style="--i:'+k+'" data-k="'+k+'">'+optHtml(o)+'</button>';});
   h+='</div>';stageEl.innerHTML=h;say(sayTxt);wireRepeat(sayTxt);
-  var need=r.multi?opts.filter(function(o){return o.correct;}).length:1;var got=0;
+  var need=r.multi?opts.filter(function(o){return o.correct;}).length:1;var got=0;var miss=0;
+  function hintCorrect(strong){
+   stageEl.querySelectorAll('.opt').forEach(function(b){
+    if(opts[+b.dataset.k].correct&&!b.classList.contains('done')){
+     b.classList.add('hintme');if(strong)b.classList.add('strong');
+    }
+   });
+  }
   stageEl.querySelectorAll('.opt').forEach(function(btn){
    btn.onclick=function(){
     if(btn.classList.contains('done'))return;var o=opts[+btn.dataset.k];
     if(o.correct){
-     btn.classList.add('ok','done','pop');var rc=btn.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');
+     btn.classList.remove('hintme','strong');
+     btn.classList.add('ok','done','pop');var rc=btn.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();
      if(!calm()&&window.mascoteHtml){var st=document.createElement('span');st.className='stamp';st.innerHTML=window.mascoteHtml(G.turma,34);btn.appendChild(st);}
      if(o.say)say(T(o.say));else if(o.t)say(String(T(o.t)));
      got++;
      if(got>=need){ri++;setStats(ri,rounds.length);setTimeout(show,850);}
     }else{
-     state.err++;btn.classList.add('bad');shake(btn);reax('no');say(pt_('tentaDeNovo'));setTimeout(function(){btn.classList.remove('bad');},500);
+     state.err++;miss++;btn.classList.add('bad');shake(btn);reax('no');SFX.miss();
+     say(miss===1?pt_('quase'):pt_('tentaDeNovo'));
+     setTimeout(function(){btn.classList.remove('bad');},500);
+     if(miss===2)hintCorrect(false);
+     else if(miss>=3){hintCorrect(true);say(pt_('olhaAqui'));}
     }
    };
   });
@@ -242,7 +275,7 @@ function engineMemory(i){
   if(!first){first=card;return;}var a=first,b=card;first=null;
   if(a.dataset.key===b.dataset.key&&a!==b){
    state.lock=true;
-   setTimeout(function(){a.classList.add('matched');b.classList.add('matched');var rc=b.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');matched++;setStats(matched,pairs);state.lock=false;if(matched===pairs)setTimeout(finishLevel,700);},420);
+   setTimeout(function(){a.classList.add('matched');b.classList.add('matched');var rc=b.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();matched++;setStats(matched,pairs);state.lock=false;if(matched===pairs)setTimeout(finishLevel,700);},420);
   }else{
    state.lock=true;setTimeout(function(){a.classList.remove('flipped');b.classList.remove('flipped');state.lock=false;},950);
   }
@@ -263,12 +296,12 @@ function engineOrder(i){
     if(btn.classList.contains('done'))return;
     if(btn.dataset.v===String(items[placed])){
      var sl=stageEl.querySelector('.slot[data-i="'+placed+'"]');sl.textContent=btn.dataset.v;sl.classList.add('filled');btn.classList.add('ok','done');
-     var rc=btn.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');say(String(btn.dataset.v));placed++;
+     var rc=btn.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();say(String(btn.dataset.v));placed++;
      if(placed>=items.length){
       if(r.word)setTimeout(function(){say(T(r.word)+'!');},350);
       ri++;setStats(ri,rounds.length);setTimeout(show,1100);
      }
-    }else{state.err++;btn.classList.add('bad');shake(btn);reax('no');setTimeout(function(){btn.classList.remove('bad');},500);}
+    }else{state.err++;btn.classList.add('bad');shake(btn);reax('no');SFX.miss();setTimeout(function(){btn.classList.remove('bad');},500);}
    };
   });
  }
@@ -303,7 +336,7 @@ function engineTrace(i){
     var rc=(c||svg).getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);
     next++;
     if(next>=dots.length){
-     line.classList.add('done');reax('ok');say(String(r.guide||''));
+     line.classList.add('done');reax('ok');SFX.good();say(String(r.guide||''));
      ri++;setStats(ri,rounds.length);setTimeout(show,900);
     }
    }

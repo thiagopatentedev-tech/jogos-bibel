@@ -316,3 +316,18 @@ h1{letter-spacing:-.015em}
 @keyframes v2nudge{0%,100%{transform:none}50%{transform:translateY(-3px) scale(1.03)}}
 @media (prefers-reduced-motion:reduce){.wincard .btn.nudge{animation:none}}
 :root[data-calm] .wincard .btn.nudge{animation:none}
+
+/* ===================== Onda 3 · erro macio + som ===================== */
+
+/* o "errou" deixa de ser alarme: ambar quente, e um tranco pequeno no lugar do chacoalhar */
+.opt.bad{border-color:var(--sun);background:#fff6e8}
+.card.bad .front,.slot.bad{border-color:var(--sun)}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.shake{animation:shk .32s}
+
+/* depois de 2 erros, a resposta certa ganha um halo verde suave (a ajudinha) */
+.opt.hintme{box-shadow:0 0 0 3px var(--leaf), var(--clay);animation:hintpulse 1.2s var(--ease-out) infinite}
+.opt.hintme.strong{transform:scale(1.06)}
+@keyframes hintpulse{0%,100%{box-shadow:0 0 0 3px var(--leaf), var(--clay)}50%{box-shadow:0 0 0 6px rgba(56,182,118,.35), var(--clay)}}
+@media (prefers-reduced-motion:reduce){.opt.hintme{animation:none}}
+:root[data-calm] .opt.hintme{animation:none;box-shadow:0 0 0 3px var(--leaf), var(--clay)}
