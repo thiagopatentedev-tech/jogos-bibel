@@ -1,0 +1,88 @@
+/* Skin "Blocos de Brinquedo" — piloto no jogo "cores".
+   Tudo sob [data-skin="blocos"]. Não toca a v1 nem os outros jogos do v2.
+   Reversível: tira o data-skin do <html> e o <link> desta folha do index.html do jogo.
+   Sistema: fundo creme quente, contorno preto de 3px em todo bloco, sombra dura
+   sólida (sem blur), canto quase reto, 3 primárias + verde só pro estado "certo",
+   Baloo 2 nos títulos e rótulos + Nunito no texto (no lugar da Fredoka). */
+
+:root[data-skin="blocos"]{
+  --papel:#f9f3e6; --bibel-bg:#f9f3e6; --bibel-bg2:#f9f3e6;
+  --card:#ffffff;
+  --tinta:#1c1c1c; --ink-soft:#5b5147;
+  --coral:#e5372b; --terra:#1c1c1c;
+  --verde:#2fa860; --leaf:#2fa860;
+  --azul:#2f6fd6; --amarelo:#f5c518; --rosa:#e5372b; --grape:#2f6fd6; --sun:#f5c518;
+  --line:#1c1c1c;
+  --clay:5px 5px 0 #1c1c1c;
+  --clay-press:2px 2px 0 #1c1c1c;
+  --r-lg:12px; --r-md:9px; --r-sm:6px;
+}
+
+[data-skin="blocos"] body{
+  background:#f9f3e6;
+  font-family:"Nunito",system-ui,sans-serif;
+}
+
+[data-skin="blocos"] h1,
+[data-skin="blocos"] .kicker,
+[data-skin="blocos"] .scorebox .lvlname,
+[data-skin="blocos"] .wincard h2,
+[data-skin="blocos"] .sheetcard h2,
+[data-skin="blocos"] .btn,
+[data-skin="blocos"] .prompt-say .txt,
+[data-skin="blocos"] .lvl .meta b,
+[data-skin="blocos"] .pill{
+  font-family:"Baloo 2","Trebuchet MS",sans-serif;
+  letter-spacing:.005em;
+}
+[data-skin="blocos"] h1{color:#1c1c1c;text-transform:uppercase}
+[data-skin="blocos"] .kicker{color:#e5372b}
+
+/* blocos: contorno preto grosso, canto quase reto, sombra dura sólida */
+[data-skin="blocos"] .tile,
+[data-skin="blocos"] .opt,
+[data-skin="blocos"] .lvl,
+[data-skin="blocos"] .pill,
+[data-skin="blocos"] .iconbtn,
+[data-skin="blocos"] .menu-home,
+[data-skin="blocos"] .info-btn,
+[data-skin="blocos"] .lang-btn,
+[data-skin="blocos"] .prompt-say,
+[data-skin="blocos"] .wincard,
+[data-skin="blocos"] .sheetcard,
+[data-skin="blocos"] .restcard{
+  border-width:3px;border-style:solid;border-color:#1c1c1c;
+}
+[data-skin="blocos"] .tile,
+[data-skin="blocos"] .lvl,
+[data-skin="blocos"] .opt{border-radius:9px;box-shadow:5px 5px 0 #1c1c1c}
+[data-skin="blocos"] .opt:active,
+[data-skin="blocos"] .tile:active,
+[data-skin="blocos"] .lvl:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #1c1c1c}
+
+/* instrução falada = bloco amarelo */
+[data-skin="blocos"] .prompt-say{
+  background:#f5c518;border-radius:8px;box-shadow:3px 3px 0 #1c1c1c;color:#1c1c1c;
+}
+
+/* estado certo = bloco verde; erro = bloco vermelho claro. Sempre contorno preto. */
+[data-skin="blocos"] .opt.ok{background:#2fa860;border-color:#1c1c1c}
+[data-skin="blocos"] .opt.bad{background:#ffd7d3;border-color:#1c1c1c}
+[data-skin="blocos"] .opt.hintme{box-shadow:0 0 0 4px #2fa860,5px 5px 0 #1c1c1c}
+
+/* barra de nível + botões da tela de vitória */
+[data-skin="blocos"] .lvl .num{background:#e5372b;border:2.5px solid #1c1c1c;color:#fff}
+[data-skin="blocos"] .lvl.done .num{background:#2fa860}
+[data-skin="blocos"] .btn.primary{background:#2fa860;border:3px solid #1c1c1c;box-shadow:5px 5px 0 #1c1c1c;color:#fff}
+[data-skin="blocos"] .btn.ghost{background:#fff;border:3px solid #1c1c1c;box-shadow:none;color:#1c1c1c}
+[data-skin="blocos"] .wincard h2,
+[data-skin="blocos"] .sheetcard h2{color:#1c1c1c}
+
+/* carimbo da mascote no acerto: emoldura num selo de contorno preto */
+[data-skin="blocos"] .stamp{
+  border:3px solid #1c1c1c;background:#fff;border-radius:50%;
+  filter:none;overflow:hidden;
+}
+
+/* confete: formas chapadas com contorno, não brilho */
+[data-skin="blocos"] .conf{border:2px solid #1c1c1c;border-radius:2px}
