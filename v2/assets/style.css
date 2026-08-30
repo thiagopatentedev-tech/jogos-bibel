@@ -365,7 +365,7 @@ h1{letter-spacing:-.015em}
 .bucket .bkm .gly{width:1em;height:1em}
 .bucket.got{border-style:solid;border-color:var(--leaf);background:#e9f9f0;transform:scale(1.06)}
 .dragtray{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-.dragitem{border:3px solid var(--line);background:var(--card);border-radius:18px;padding:10px 12px;
+.dragitem{touch-action:none;border:3px solid var(--line);background:var(--card);border-radius:18px;padding:10px 12px;
   font-family:inherit;cursor:grab;touch-action:none;box-shadow:var(--clay);position:relative;z-index:2}
 .dragitem .oe{font-size:40px;line-height:1;display:block}
 .dragitem .oe .gly{width:1em;height:1em}

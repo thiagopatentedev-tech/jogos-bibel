@@ -364,81 +364,78 @@ function engineTrace(i){
  show();
 }
 
-/* motor "drag": pôr cada figura no cesto que a aceita. Funciona de dois jeitos:
-   arrastar a figura pro cesto, ou tocar na figura e depois no cesto.
+/* motor "drag": pôr cada figura no cesto que a aceita.
+   Interacao primaria: toca na figura (ela destaca, os cestos pulsam) e toca no cesto.
+   Arrastar tambem funciona, mas todo gesto que nao termina dentro de um cesto vira selecao,
+   entao a crianca nunca fica sem caminho. Usa Pointer Events (mouse + toque no mesmo fluxo).
    dado do round: { say, buckets:[{emoji,accept}], items:[{emoji,kind}] } */
 function engineDrag(i){
  var lv=curLevels()[i];var rounds=shuffle(lv.rounds.slice());var ri=0;startTimer();
- // touchend nao traz e.touches; precisa de changedTouches pra saber onde o dedo soltou
- function ptxy(e){var t=(e.touches&&e.touches[0])||(e.changedTouches&&e.changedTouches[0])||e;return {x:t.clientX,y:t.clientY};}
  function show(){
   if(ri>=rounds.length){finishLevel();return;}
   setStats(ri,rounds.length);var r=rounds[ri];var sayTxt=T(r.say);
   var items=shuffle(r.items.slice());var left=items.length;
   var h='<div class="prompt slim">'+promptCaption(sayTxt)+'</div><div class="buckets">';
-  r.buckets.forEach(function(b,bi){h+='<div class="bucket" data-accept="'+b.accept+'" data-bi="'+bi+'"><span class="bkm">'+G_(T(b.emoji))+'</span></div>';});
+  r.buckets.forEach(function(b){h+='<div class="bucket" data-accept="'+b.accept+'"><span class="bkm">'+G_(T(b.emoji))+'</span></div>';});
   h+='</div><div class="dragtray">';
-  items.forEach(function(it,k){h+='<button class="dragitem" data-k="'+k+'" data-kind="'+it.kind+'"><span class="oe">'+G_(T(it.emoji))+'</span></button>';});
+  items.forEach(function(it,k){h+='<button class="dragitem" type="button" data-k="'+k+'" data-kind="'+it.kind+'"><span class="oe">'+G_(T(it.emoji))+'</span></button>';});
   h+='</div>';stageEl.innerHTML=h;say(sayTxt);wireRepeat(sayTxt);
-  var buckets=stageEl.querySelectorAll('.bucket');
+  var buckets=[].slice.call(stageEl.querySelectorAll('.bucket'));
   var sel=null;
-  function clearSel(){if(sel){sel.classList.remove('sel');sel=null;}stageEl.querySelectorAll('.bucket').forEach(function(b){b.classList.remove('want');});}
+  function setSel(el){
+   if(sel)sel.classList.remove('sel');
+   sel=el||null;
+   if(sel)sel.classList.add('sel');
+   buckets.forEach(function(b){b.classList.toggle('want',!!sel);});
+  }
   function place(el,b){
-   el.classList.add('placed');el.style.transform='';el.classList.remove('grab','sel');
+   el.classList.add('placed');el.style.transform='';el.classList.remove('grab');
+   if(sel===el)setSel(null);
    b.classList.add('got');setTimeout(function(){b.classList.remove('got');},400);
    var rc=b.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();
-   if(sel===el)sel=null;
    left--;if(left<=0){ri++;setStats(ri,rounds.length);setTimeout(show,700);}
   }
   function reject(el){
    el.style.transform='';el.classList.add('bad');shake(el);reax('no');SFX.miss();
    setTimeout(function(){el.classList.remove('bad');},400);
   }
-  function drop(el,x,y){
-   var hit=null;
-   buckets.forEach(function(b){var rc=b.getBoundingClientRect();if(x>=rc.left&&x<=rc.right&&y>=rc.top&&y<=rc.bottom)hit=b;});
-   if(hit&&hit.dataset.accept===el.dataset.kind)place(el,hit);
-   else if(hit)reject(el);
-   else el.style.transform='';  // largou fora de qualquer cesto: so volta
+  function bucketAt(x,y){
+   for(var j=0;j<buckets.length;j++){var rc=buckets[j].getBoundingClientRect();
+    if(x>=rc.left&&x<=rc.right&&y>=rc.top&&y<=rc.bottom)return buckets[j];}
+   return null;
+  }
+  function match(el,b){  // tenta casar figura->cesto; devolve true se resolveu (certo ou errado)
+   if(!b)return false;
+   if(b.dataset.accept===el.dataset.kind)place(el,b);else reject(el);
+   return true;
   }
   buckets.forEach(function(b){
-   b.addEventListener('click',function(){
-    if(!sel)return;
-    if(b.dataset.accept===sel.dataset.kind)place(sel,b);
-    else{reject(sel);}
-    clearSel();
-   });
+   b.addEventListener('click',function(){ if(sel){ var s=sel; match(s,b); setSel(null); } });
   });
   stageEl.querySelectorAll('.dragitem').forEach(function(el){
-   var sx,sy,on=false,moved=false;
-   function down(e){
+   var sx=0,sy=0,moved=false,live=false;
+   el.addEventListener('pointerdown',function(e){
     if(el.classList.contains('placed'))return;
-    var p=ptxy(e);sx=p.x;sy=p.y;on=true;moved=false;
-    document.addEventListener('mousemove',move);document.addEventListener('mouseup',up);
-    document.addEventListener('touchmove',move,{passive:false});document.addEventListener('touchend',up);
-   }
-   function move(e){
-    if(!on)return;var p=ptxy(e);var dx=p.x-sx,dy=p.y-sy;
-    if(!moved&&dx*dx+dy*dy<36)return;  // toque parado ainda nao e arraste
-    moved=true;el.classList.add('grab');
-    el.style.transform='translate('+dx+'px,'+dy+'px) scale(1.12)';
-    if(e.cancelable)e.preventDefault();
-   }
-   function up(e){
-    on=false;el.classList.remove('grab');
-    document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);
-    document.removeEventListener('touchmove',move);document.removeEventListener('touchend',up);
-    if(!moved)return;  // foi toque, nao arraste: o click cuida de selecionar
-    var p=ptxy(e);drop(el,p.x,p.y);
-   }
-   el.addEventListener('mousedown',down);el.addEventListener('touchstart',down,{passive:true});
-   el.addEventListener('click',function(){
-    if(moved){moved=false;return;}  // acabou de arrastar, ignora o click sintetico
-    if(el.classList.contains('placed'))return;
-    if(sel===el){clearSel();return;}
-    clearSel();sel=el;el.classList.add('sel');
-    buckets.forEach(function(b){b.classList.add('want');});
+    sx=e.clientX;sy=e.clientY;moved=false;live=true;
+    try{el.setPointerCapture(e.pointerId);}catch(_){}
    });
+   el.addEventListener('pointermove',function(e){
+    if(!live)return;
+    var dx=e.clientX-sx,dy=e.clientY-sy;
+    if(!moved&&dx*dx+dy*dy<100)return;  // limiar ~10px: separa toque de arraste
+    moved=true;el.classList.add('grab');
+    el.style.transform='translate('+dx+'px,'+dy+'px) scale(1.1)';
+   });
+   function end(e){
+    if(!live)return;live=false;el.classList.remove('grab');
+    try{el.releasePointerCapture(e.pointerId);}catch(_){}
+    if(!moved){ setSel(sel===el?null:el); return; }          // foi toque: alterna selecao
+    var b=bucketAt(e.clientX,e.clientY);
+    if(b){ match(el,b); }
+    else { el.style.transform=''; setSel(el); }               // arraste que nao chegou: seleciona
+   }
+   el.addEventListener('pointerup',end);
+   el.addEventListener('pointercancel',end);
   });
  }
  show();
