@@ -442,3 +442,125 @@ h1{letter-spacing:-.015em}
   box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
 .tfeq{margin-top:12px;font-size:clamp(30px,9vw,44px);font-weight:700;color:var(--tinta);letter-spacing:2px}
 :root[data-calm] .tenframe .tf.on{box-shadow:none}
+
+/* ===================== SISTEMA "BLOCOS DE BRINQUEDO" · padrão da v2 =====================
+   Direção escolhida no canvas de design. Fica no fim da folha, então vence o bloco
+   "sistema de design (Onda 1)" acima por ordem de cascata.
+   Reverter: apagar deste comentário até o fim do arquivo e devolver a fonte Fredoka
+   nos <link> dos index.html.
+   Regra: fundo creme quente, contorno preto de 3px em todo bloco, sombra dura sólida
+   (sem blur), canto quase reto, 3 primárias + verde só pro estado "certo". */
+
+:root{
+  --papel:#f9f3e6; --bibel-bg:#f9f3e6; --bibel-bg2:#f4e7cf;
+  --card:#ffffff;
+  --tinta:#1c1c1c; --ink-soft:#5b5147;
+  --coral:#e5372b; --terra:#1c1c1c;
+  --verde:#2fa860; --leaf:#2fa860;
+  --azul:#2f6fd6; --sky:#2f6fd6;
+  --amarelo:#f5c518; --sun:#f5c518;
+  --rosa:#e5372b; --berry:#e5372b;
+  --grape:#2f6fd6;
+  --line:#1c1c1c;
+  --sombra:5px 5px 0 #1c1c1c;
+  --clay:5px 5px 0 #1c1c1c;
+  --clay-press:2px 2px 0 #1c1c1c;
+  --r-lg:14px; --r-md:10px; --r-sm:7px;
+}
+
+body{
+  background:#f9f3e6;
+  font-family:"Nunito",system-ui,-apple-system,sans-serif;
+}
+
+/* tipografia: Baloo 2 nos títulos e rótulos, Nunito no corpo */
+h1,.kicker,.scorebox .lvlname,.wincard h2,.sheetcard h2,.wincard .btn,
+.lvl .meta b,.pill,.prompt-say .txt,.tag,.hint,.opt .ol,.slot,.tnum,.tfeq,
+.head .k,.head h1,.secttl,.tile .tt,.today .k,.today .tt,.turmabtn,.timebtn,.agebtn,.calmbtn{
+  font-family:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+}
+.head h1{text-transform:uppercase}
+h1{color:#1c1c1c;text-transform:uppercase;letter-spacing:.01em}
+.kicker{color:#e5372b}
+.scorebox .lvlname{color:#1c1c1c}
+
+/* blocos: contorno preto grosso, canto quase reto, sombra dura sólida */
+.tile,.opt,.lvl,.pill,.iconbtn,.menu-home,.info-btn,.lang-btn,
+.timebtn,.agebtn,.calmbtn,.prompt-say,.wincard,.sheetcard,.restcard,
+.card .front,.dragitem{
+  border-width:3px;border-style:solid;border-color:#1c1c1c;
+}
+.tile,.opt,.lvl{border-radius:10px;box-shadow:5px 5px 0 #1c1c1c}
+.tile:active,.opt:active,.lvl:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #1c1c1c}
+.wincard,.sheetcard,.restcard{border-radius:14px;box-shadow:6px 6px 0 #1c1c1c}
+.card .face{box-shadow:4px 4px 0 #1c1c1c}
+.card .front{border-radius:10px}
+
+/* barra de nível + discos */
+.lvl .num{background:#e5372b;border:2.5px solid #1c1c1c;color:#fff}
+.lvl.done .num{background:#2fa860}
+
+/* instrução falada = bloco amarelo */
+.prompt-say{background:#f5c518;border-radius:8px;box-shadow:3px 3px 0 #1c1c1c;color:#1c1c1c;margin-top:10px}
+
+/* estado certo = bloco verde; erro = bloco vermelho claro; sempre contorno preto */
+.opt.ok{border-color:#1c1c1c;background:#2fa860}
+.opt.ok .ol,.opt.ok .big-letter{color:#fff}
+.opt.ok .oe{background:transparent;box-shadow:none}
+.opt.bad,.card.bad .front,.slot.bad{border-color:#1c1c1c}
+.opt.bad{background:#ffd7d3}
+.opt.hintme{box-shadow:0 0 0 4px #2fa860, 5px 5px 0 #1c1c1c}
+@keyframes hintpulse{0%,100%{box-shadow:0 0 0 4px #2fa860,5px 5px 0 #1c1c1c}50%{box-shadow:0 0 0 7px rgba(47,168,96,.42),5px 5px 0 #1c1c1c}}
+:root[data-calm] .opt.hintme{box-shadow:0 0 0 4px #2fa860,5px 5px 0 #1c1c1c}
+
+/* figura da opção assenta direto no bloco branco, sem moldura quente */
+.opt .oe{background:transparent;box-shadow:none;padding:0}
+
+/* estímulo grande único */
+.big-letter,.bigword{color:#e5372b}
+.emoji-xl.solo{border:3px solid #1c1c1c;border-radius:12px;box-shadow:5px 5px 0 #1c1c1c;background:#fff}
+:root[data-calm] .emoji-xl.solo{box-shadow:none;border-color:#e6ddce}
+
+/* memória */
+.card .back{background:#2f6fd6}
+.card .back::after{color:#fff}
+.card.matched .front{border-color:#1c1c1c;background:#d9f2e3}
+
+/* traçar */
+.slot{border-bottom:5px solid #1c1c1c}
+.slot.filled{border-bottom-color:#2fa860}
+.tguide{fill:#efe3c8}
+.tline{stroke:#e5372b} .tline.done{stroke:#2fa860}
+.tdot{stroke:#1c1c1c} .tdot.hit{fill:#2fa860;stroke:#1c1c1c}
+.tdot.tnext{fill:#eafaf1;stroke:#2fa860}
+.tdot.tnext + .tnum{fill:#2fa860}
+
+/* arrastar */
+.bucket{border:3px dashed #1c1c1c;background:#fff}
+.bucket.got{border-style:solid;border-color:#2fa860;background:#d9f2e3}
+.dragitem{border-radius:9px;box-shadow:5px 5px 0 #1c1c1c}
+.dragitem.sel{border-color:#e5372b;box-shadow:0 0 0 4px rgba(229,55,43,.3),5px 5px 0 #1c1c1c;transform:translateY(-3px) scale(1.05)}
+.bucket.want{border-color:#e5372b}
+
+/* botões da tela de vitória */
+.wincard .btn{border:3px solid #1c1c1c;border-radius:10px}
+.btn.primary{background:#2fa860;color:#fff;box-shadow:4px 4px 0 #1c1c1c}
+.btn.ghost{background:#fff;color:#1c1c1c;box-shadow:none}
+.wincard h2,.sheetcard h2,.restcard h2,.figline{color:#1c1c1c}
+
+/* carimbo da mascote no acerto: moldura de selo preto */
+.stamp{border:3px solid #1c1c1c;background:#fff;border-radius:50%;filter:none;overflow:hidden}
+
+/* confete: forma chapada com contorno, não brilho */
+.conf{border:2px solid #1c1c1c;border-radius:2px}
+
+/* controle de modo calmo no hub */
+.calmbtn.on{background:#e5372b;border-color:#e5372b;color:#fff}
+
+/* grade de dez (faz dez) */
+.tenframe .tf{border-color:#1c1c1c}
+.tenframe .tf.on{background:#e5372b;border-color:#1c1c1c;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+
+/* glyphs: sombrinha preta curta no lugar da marrom */
+.gly{filter:drop-shadow(0 2px 0 rgba(28,28,28,.16))}
+.emoji-xl .gly{filter:drop-shadow(0 3px 0 rgba(28,28,28,.14))}
