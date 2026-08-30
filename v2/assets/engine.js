@@ -166,7 +166,7 @@ function renderHome(){
 function curLevels(){return G.levels||T(G.i18n).levels;}
 function startLevel(i){
  if(RG.over()){RG.overlay();return;}
- state.level=i;lvlNameEl.textContent=T(curLevels()[i].nome);homeEl.style.display='none';gameEl.classList.add('active');window.scrollTo(0,0);
+ state.level=i;state.err=0;lvlNameEl.textContent=T(curLevels()[i].nome);homeEl.style.display='none';gameEl.classList.add('active');window.scrollTo(0,0);
  RG.start();engineStart(i);
 }
 function finishLevel(){
@@ -181,6 +181,7 @@ function finishLevel(){
    +(gotFig?'<span class="figline">'+G_(G.hero)+' '+pt_('ganhouFig')+'</span>':'');
  $('nextBtn').textContent=pt_('proximoNivel');
  $('nextBtn').style.display=last?'none':'block';
+ $('nextBtn').classList.toggle('nudge', !last && (state.err||0)===0);  // empurrao adaptativo: acertou tudo, sobe
  $('homeBtn').textContent=pt_('escolherNivel');
  winEl.classList.add('show');confetti();say(last?pt_('parabens'):pt_('muitoBem'));
 }
@@ -218,7 +219,7 @@ function engineChoice(i){
      got++;
      if(got>=need){ri++;setStats(ri,rounds.length);setTimeout(show,850);}
     }else{
-     btn.classList.add('bad');shake(btn);reax('no');say(pt_('tentaDeNovo'));setTimeout(function(){btn.classList.remove('bad');},500);
+     state.err++;btn.classList.add('bad');shake(btn);reax('no');say(pt_('tentaDeNovo'));setTimeout(function(){btn.classList.remove('bad');},500);
     }
    };
   });
@@ -267,7 +268,7 @@ function engineOrder(i){
       if(r.word)setTimeout(function(){say(T(r.word)+'!');},350);
       ri++;setStats(ri,rounds.length);setTimeout(show,1100);
      }
-    }else{btn.classList.add('bad');shake(btn);reax('no');setTimeout(function(){btn.classList.remove('bad');},500);}
+    }else{state.err++;btn.classList.add('bad');shake(btn);reax('no');setTimeout(function(){btn.classList.remove('bad');},500);}
    };
   });
  }

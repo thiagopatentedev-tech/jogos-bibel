@@ -310,3 +310,9 @@ h1{letter-spacing:-.015em}
 .calmbtn{border:3px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;
   font-family:inherit;font-weight:700;font-size:13px;color:var(--ink-soft);cursor:pointer}
 .calmbtn.on{background:var(--coral);color:#fff;border-color:var(--coral)}
+
+/* empurrao adaptativo: "proximo nivel" pulsa quando o nivel saiu sem erro */
+.wincard .btn.nudge{animation:v2nudge 1.15s var(--ease-out) infinite}
+@keyframes v2nudge{0%,100%{transform:none}50%{transform:translateY(-3px) scale(1.03)}}
+@media (prefers-reduced-motion:reduce){.wincard .btn.nudge{animation:none}}
+:root[data-calm] .wincard .btn.nudge{animation:none}
