@@ -271,6 +271,12 @@ h1{letter-spacing:-.015em}
 .tguide{fill:#f1e2c9}
 .tline{stroke:var(--coral)} .tline.done{stroke:var(--leaf)}
 .tdot{stroke:var(--coral)} .tdot.hit{fill:var(--leaf);stroke:var(--leaf)}
+/* o proximo ponto a tocar fica verde e pulsa: mostra por onde comecar e continuar */
+.tdot.tnext{fill:#e9f9f0;stroke:var(--leaf);stroke-width:3.5;animation:tnextpulse 1.1s ease-in-out infinite}
+.tdot.tnext + .tnum{fill:var(--leaf)}
+@keyframes tnextpulse{0%,100%{stroke-width:3.5}50%{stroke-width:5.5}}
+@media (prefers-reduced-motion:reduce){.tdot.tnext{animation:none}}
+:root[data-calm] .tdot.tnext{animation:none}
 .restcard h2,.sheetcard h2,.wincard h2{color:var(--terra)}
 .figline{color:var(--terra)}
 

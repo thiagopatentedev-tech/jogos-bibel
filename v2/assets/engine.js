@@ -314,9 +314,12 @@ function engineTrace(i){
  var lv=curLevels()[i];var rounds=shuffle(lv.rounds.slice());var ri=0;startTimer();
  function show(){
   if(ri>=rounds.length){finishLevel();return;}
-  setStats(ri,rounds.length);var r=rounds[ri];var dots=r.dots||[];var next=0;var sayTxt=T(r.say);
+  setStats(ri,rounds.length);var r=rounds[ri];var raw=r.dots||[];var next=0;var sayTxt=T(r.say);
+  // forma fechada: 1o ponto == ultimo. nao desenha o ponto repetido, mas fecha a linha no fim.
+  var closed=raw.length>2 && raw[0][0]===raw[raw.length-1][0] && raw[0][1]===raw[raw.length-1][1];
+  var dots=closed?raw.slice(0,-1):raw;
   var pts='';for(var d=0;d<dots.length;d++){
-   pts+='<circle class="tdot" data-i="'+d+'" cx="'+dots[d][0]+'" cy="'+dots[d][1]+'" r="7"></circle>'
+   pts+='<circle class="tdot'+(d===0?' tnext':'')+'" data-i="'+d+'" cx="'+dots[d][0]+'" cy="'+dots[d][1]+'" r="'+(d===0?8.5:7)+'"></circle>'
       + '<text class="tnum" x="'+dots[d][0]+'" y="'+(dots[d][1]+3.2)+'">'+(d+1)+'</text>';
   }
   var h='<div class="prompt slim">'+promptCaption(sayTxt)+'</div>'
@@ -325,20 +328,25 @@ function engineTrace(i){
    +'<polyline class="tline" points=""></polyline>'+pts+'</svg></div>';
   stageEl.innerHTML=h;say(sayTxt);wireRepeat(sayTxt);
   var svg=stageEl.querySelector('svg');var line=svg.querySelector('.tline');var got=[];
+  function markNext(){
+   svg.querySelectorAll('.tnext').forEach(function(e){e.classList.remove('tnext');e.setAttribute('r','7');});
+   var c=svg.querySelector('.tdot[data-i="'+next+'"]');
+   if(c){c.classList.add('tnext');c.setAttribute('r','8.5');}
+  }
   function pt(evt){var rc=svg.getBoundingClientRect();var t=evt.touches&&evt.touches[0]||evt;
    return {x:(t.clientX-rc.left)/rc.width*100,y:(t.clientY-rc.top)/rc.height*100};}
   function tryHit(p){
    if(next>=dots.length)return;
    var dx=p.x-dots[next][0],dy=p.y-dots[next][1];
-   if(dx*dx+dy*dy<=90){
-    var c=svg.querySelector('.tdot[data-i="'+next+'"]');if(c)c.classList.add('hit');
+   if(dx*dx+dy*dy<=110){
+    var c=svg.querySelector('.tdot[data-i="'+next+'"]');if(c){c.classList.remove('tnext');c.classList.add('hit');c.setAttribute('r','7');}
     got.push(dots[next][0]+','+dots[next][1]);line.setAttribute('points',got.join(' '));
     var rc=(c||svg).getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);
     next++;
-    if(next>=dots.length){
-     line.classList.add('done');reax('ok');SFX.good();say(String(r.guide||''));
-     ri++;setStats(ri,rounds.length);setTimeout(show,900);
-    }
+    if(next<dots.length){markNext();return;}
+    if(closed){got.push(dots[0][0]+','+dots[0][1]);line.setAttribute('points',got.join(' '));}
+    line.classList.add('done');reax('ok');SFX.good();say(String(r.guide||''));
+    ri++;setStats(ri,rounds.length);setTimeout(show,900);
    }
   }
   function move(e){tryHit(pt(e));if(e.cancelable)e.preventDefault();}
