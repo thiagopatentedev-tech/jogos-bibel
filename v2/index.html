@@ -28,10 +28,13 @@
 .stickers .shelf{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .stickers .fig{width:46px;height:46px;border:3px solid var(--line);border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:var(--clay-press)}
 .stickers .fig .gly{width:26px;height:26px}
-.timebar{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0 2px}
-.timebar .lbl{font-size:13px;color:var(--ink-soft);font-weight:600}
 .timebtn{border:3px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font-family:inherit;font-weight:700;font-size:13px;color:var(--ink-soft);cursor:pointer}
 .timebtn.on{background:var(--coral);color:#fff;border-color:var(--coral)}
+.sheetcard{max-height:88vh;overflow-y:auto}
+.parentctl{margin-top:18px;border-top:2px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:12px}
+.parentctl .pctitle{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+.parentctl .pcrow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.parentctl .lbl{font-size:12px;color:var(--ink-soft);font-weight:600}
 </style></head><body>
 <button class="lang-btn" id="langBtn" aria-label="Português / English" style="position:fixed;top:12px;right:12px"><span class="flag pt on"></span><span class="flag en"></span></button>
 <button class="info-btn" id="infoBtn" aria-label="Sobre" style="position:fixed;top:12px;left:12px">ⓘ</button>
@@ -41,6 +44,7 @@
   <div class="big">🧸</div>
   <h2 id="aboutH2">Sobre</h2>
   <p id="aboutP"></p>
+  <div class="parentctl" id="parentctl"></div>
  </div>
 </div>
 <div class="wrap">
@@ -53,13 +57,6 @@
  <p class="turmahint" id="turmaHint"></p>
  <div class="grid2" id="grid"></div>
  <div class="stickers" id="stickers"></div>
- <div class="profilebar">
-  <span class="lbl" id="profileLbl">toque maior pra mãozinha pequena?</span>
-  <button class="agebtn" id="ageP3" data-p="p3">3</button>
-  <button class="agebtn" id="ageP5" data-p="p5">5</button>
- </div>
- <div class="timebar" id="timebar"></div>
- <div class="calmbar" id="calmbar"></div>
  <div class="foot" id="foot">Feito por Thiago Patente, para as duas filhas. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a></div>
 </div>
 <script>
@@ -92,8 +89,8 @@ var TILES=[
  {turma:"p2",href:"tracar-numeros/",e:"🔢",pt:["Traçar Números","ligue os pontos e trace o número"],en:["Trace Numbers","connect the dots and trace the number"]},
  {turma:"m2",href:"guarda-as-coisas/",e:"🧺",pt:["Guarda as Coisas","arraste cada coisa pro lugar certo"],en:["Put Things Away","drag each thing to the right place"]}
 ];
-var HEAD={pt:{h1:"Aprender brincando",tag:"joguinhos de alfabetização, feitos com IA",foot:'Feito por Thiago Patente, para as duas filhas. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"toque maior pra mãozinha pequena?",m2:"Maternal II",p2:"Pré II",hintOn:"mostrando só os jogos da ",hintOff:"toque numa turma pra ver só os jogos dela.",sectRec:"recomendados pra essa turma",sectOther:"outros jogos",aboutH2:"Sobre os Jogos da Bibel",aboutP:"Uma coleção de joguinhos de alfabetização e matemática, feitos por Thiago Patente com IA, pra suas duas filhas praticarem em português e inglês no celular. Nada de anúncio, nada de cadastro, é só brincar.",today:"jogo de hoje",figs:"suas figurinhas",tempo:"tempo de brincar",livre:"livre",calm:"modo calmo",calmOff:"desligado",calmOn:"ligado"},
- en:{h1:"Learn by playing",tag:"early learning games, made with AI",foot:'Made by Thiago Patente, for his two daughters. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"bigger buttons for a little hand?",m2:"Maternal II",p2:"Pre II",hintOn:"showing only games for ",hintOff:"tap a class to see only its games.",sectRec:"recommended for this class",sectOther:"other games",aboutH2:"About Jogos da Bibel",aboutP:"A collection of early literacy and math games, made by Thiago Patente with AI, for his two daughters to practice in Portuguese and English on the phone. No ads, no sign-up, just play.",today:"today's game",figs:"your stickers",tempo:"play time",livre:"free",calm:"calm mode",calmOff:"off",calmOn:"on"}};
+var HEAD={pt:{h1:"Aprender brincando",tag:"joguinhos de alfabetização, feitos com IA",foot:'Feito por Thiago Patente, para as duas filhas. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"toque maior pra mãozinha pequena?",m2:"Maternal II",p2:"Pré II",hintOn:"mostrando só os jogos da ",hintOff:"toque numa turma pra ver só os jogos dela.",sectRec:"recomendados pra essa turma",sectOther:"outros jogos",aboutH2:"Sobre os Jogos da Bibel",aboutP:"Uma coleção de joguinhos de alfabetização e matemática, feitos por Thiago Patente com IA, pra suas duas filhas praticarem em português e inglês no celular. Nada de anúncio, nada de cadastro, é só brincar.",today:"jogo de hoje",figs:"suas figurinhas",tempo:"tempo de brincar",livre:"livre",calm:"modo calmo",calmOff:"desligado",calmOn:"ligado",ajustes:"ajustes pra adultos"},
+ en:{h1:"Learn by playing",tag:"early learning games, made with AI",foot:'Made by Thiago Patente, for his two daughters. · <a href="https://www.thiagopatente.com.br" style="color:var(--terra)">thiagopatente.com.br</a>',profileLbl:"bigger buttons for a little hand?",m2:"Maternal II",p2:"Pre II",hintOn:"showing only games for ",hintOff:"tap a class to see only its games.",sectRec:"recommended for this class",sectOther:"other games",aboutH2:"About Jogos da Bibel",aboutP:"A collection of early literacy and math games, made by Thiago Patente with AI, for his two daughters to practice in Portuguese and English on the phone. No ads, no sign-up, just play.",today:"today's game",figs:"your stickers",tempo:"play time",livre:"free",calm:"calm mode",calmOff:"off",calmOn:"on",ajustes:"grown-up settings"}};
 function getLang(){try{return localStorage.getItem('bibel_lang')||'pt';}catch(e){return 'pt';}}
 function setLang(l){try{localStorage.setItem('bibel_lang',l);}catch(e){}}
 function getProfile(){try{return localStorage.getItem('bibel_profile')||'';}catch(e){return '';}}
@@ -124,20 +121,22 @@ function setTime(v){try{if(v)localStorage.setItem('bibel_screentime',v);else loc
 function getCalm(){try{return localStorage.getItem('bibel_calm')==='1';}catch(e){return false;}}
 function setCalm(v){try{if(v)localStorage.setItem('bibel_calm','1');else localStorage.removeItem('bibel_calm');}catch(e){}
  document.documentElement.toggleAttribute('data-calm',!!v);}
-function renderCalmbar(){
- var el=document.getElementById('calmbar');if(!el)return;var on=getCalm();
- el.innerHTML='<span class="lbl">'+HEAD[lang].calm+':</span>'
-  +'<button class="calmbtn'+(!on?' on':'')+'" data-v="0">'+HEAD[lang].calmOff+'</button>'
-  +'<button class="calmbtn'+(on?' on':'')+'" data-v="1">'+HEAD[lang].calmOn+'</button>';
- el.querySelectorAll('.calmbtn').forEach(function(b){b.onclick=function(){setCalm(b.dataset.v==='1');renderCalmbar();};});
-}
-function renderTimebar(){
- var el=document.getElementById('timebar');if(!el)return;var cur=getTime();
- var opts=[['',HEAD[lang].livre],['10','10'],['15','15'],['20','20']];
- el.innerHTML='<span class="lbl">'+HEAD[lang].tempo+':</span>'+opts.map(function(o){
-  return '<button class="timebtn'+(cur===o[0]?' on':'')+'" data-v="'+o[0]+'">'+o[1]+'</button>';
- }).join('');
- el.querySelectorAll('.timebtn').forEach(function(b){b.onclick=function(){setTime(b.dataset.v);renderTimebar();};});
+function renderParentCtl(){
+ var el=document.getElementById('parentctl');if(!el)return;
+ var H=HEAD[lang];var t=getTime();var c=getCalm();
+ var timeOpts=[['',H.livre],['10','10'],['15','15'],['20','20']];
+ el.innerHTML='<div class="pctitle">'+H.ajustes+'</div>'
+  +'<div class="pcrow"><span class="lbl">'+H.profileLbl+'</span>'
+   +'<button class="agebtn'+(profile==='p3'?' on':'')+'" data-p="p3">3</button>'
+   +'<button class="agebtn'+(profile==='p5'?' on':'')+'" data-p="p5">5</button></div>'
+  +'<div class="pcrow"><span class="lbl">'+H.tempo+':</span>'
+   +timeOpts.map(function(o){return '<button class="timebtn'+(t===o[0]?' on':'')+'" data-v="'+o[0]+'">'+o[1]+'</button>';}).join('')+'</div>'
+  +'<div class="pcrow"><span class="lbl">'+H.calm+':</span>'
+   +'<button class="calmbtn'+(!c?' on':'')+'" data-c="0">'+H.calmOff+'</button>'
+   +'<button class="calmbtn'+(c?' on':'')+'" data-c="1">'+H.calmOn+'</button></div>';
+ el.querySelectorAll('.agebtn').forEach(function(b){b.onclick=function(){var p=b.dataset.p;profile=profile===p?'':p;setProfile(profile);document.documentElement.setAttribute('data-profile',profile);renderParentCtl();};});
+ el.querySelectorAll('.timebtn').forEach(function(b){b.onclick=function(){setTime(b.dataset.v);renderParentCtl();};});
+ el.querySelectorAll('.calmbtn').forEach(function(b){b.onclick=function(){setCalm(b.dataset.c==='1');renderParentCtl();};});
 }
 function tile(t){
  var d=t[lang];
@@ -149,7 +148,6 @@ function render(){
  document.getElementById('h1').textContent=HEAD[lang].h1;
  document.getElementById('tag').textContent=HEAD[lang].tag;
  document.getElementById('foot').innerHTML=HEAD[lang].foot;
- document.getElementById('profileLbl').textContent=HEAD[lang].profileLbl;
  document.getElementById('aboutH2').textContent=HEAD[lang].aboutH2;
  document.getElementById('aboutP').textContent=HEAD[lang].aboutP;
  document.getElementById('turmaM2').querySelector('span:last-child').textContent=HEAD[lang].m2;
@@ -175,10 +173,8 @@ function render(){
  var lb=document.getElementById('langBtn');
  lb.querySelector('.pt').classList.toggle('on',lang==='pt');
  lb.querySelector('.en').classList.toggle('on',lang==='en');
- document.getElementById('ageP3').classList.toggle('on',profile==='p3');
- document.getElementById('ageP5').classList.toggle('on',profile==='p5');
  document.documentElement.setAttribute('data-profile',profile);
- renderToday();renderStickers();renderTimebar();renderCalmbar();
+ renderToday();renderStickers();renderParentCtl();
 }
 if(getCalm())document.documentElement.setAttribute('data-calm','');
 document.getElementById('langBtn').onclick=function(){lang=lang==='pt'?'en':'pt';setLang(lang);render();};
@@ -190,14 +186,6 @@ document.getElementById('aboutSheet').onclick=function(e){if(e.target.id==='abou
   var t=btn.dataset.t;
   turma = turma===t ? '' : t;
   setTurma(turma);
-  render();
- };
-});
-[document.getElementById('ageP3'),document.getElementById('ageP5')].forEach(function(btn){
- btn.onclick=function(){
-  var p=btn.dataset.p;
-  profile = profile===p ? '' : p;
-  setProfile(profile);
   render();
  };
 });
