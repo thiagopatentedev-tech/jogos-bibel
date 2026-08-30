@@ -564,3 +564,22 @@ h1{color:#1c1c1c;text-transform:uppercase;letter-spacing:.01em}
 /* glyphs: sombrinha preta curta no lugar da marrom */
 .gly{filter:drop-shadow(0 2px 0 rgba(28,28,28,.16))}
 .emoji-xl .gly{filter:drop-shadow(0 3px 0 rgba(28,28,28,.14))}
+
+/* ===================== header: o chrome fixo não cobre mais o título =====================
+   Os botões 🏠 / bandeiras / ⓘ são position:fixed no topo (bottom ~60px). Com o título
+   em caixa alta + Baloo 2 ele ficou largo e batia nos botões. Reserva o topo e enxuga o h1. */
+.wrap{padding-top:72px}
+.home{padding-top:0;min-height:calc(100dvh - 160px)}
+.head{padding-top:2px}
+h1,.head h1{
+  font-size:clamp(24px,6.4vw,42px);
+  line-height:1.05;
+  padding:0 6px;
+  text-wrap:balance;
+  overflow-wrap:break-word;
+}
+.kicker,.head .k{font-size:13px}
+/* área de jogo ocupa a tela toda já descontando o novo respiro do topo */
+.game.active{min-height:calc(100dvh - 104px)}
+/* botão de perfil (quando aparece) começa abaixo do ⓘ */
+.profile-btn{top:70px}
