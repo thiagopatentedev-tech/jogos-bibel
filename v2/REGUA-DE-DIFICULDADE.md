@@ -31,5 +31,7 @@ Nada disso trava o jogo nem guarda perfil. É só um empurrão visual, calculado
 
 ## Estado
 
-- Feito no primeiro corte: `soma-facil`, `contar`, `maior-grupo`, `sequencia` (matemática, dificuldade objetiva) e o empurrão adaptativo no motor.
-- A fazer: os jogos de alfabetização e de conceito. O vocabulário dos níveis 4 e 5 é escolhido pelo Thiago; o rascunho sai do prompt em `docs/prompt-para-ia.md` com esta régua colada junto.
+- **16 jogos já em 5 níveis:** `soma-facil`, `contar`, `maior-grupo`, `sequencia` (matemática); `cores`, `diferente`, `emocoes`, `formas`, `opostos`, `padroes`, `partes-do-corpo`, `rotina`, `sons-dos-bichos`, `tamanhos`, `caca-letra`, `ingles-pra-figura` (conceito). Os níveis 4 e 5 destes são **rascunho, para o Thiago revisar** (o conteúdo de matemática é objetivo, o de conceito e vocabulário pede um olhar).
+- Empurrão adaptativo ativo no motor.
+- **Faltam 4:** `primeira-letra`, `som-da-letra`, `silabas`, `qual-palavra`. São alfabetização em português puro; o vocabulário dos níveis 4 e 5 é escolha do Thiago. Régua + prompt prontos pra isso.
+- `rimas` (6) e `sombras` (4) escalam por pares, mantêm. `tracar-numeros` é jogo novo, 3 níveis por ora.
