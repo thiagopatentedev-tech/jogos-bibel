@@ -374,3 +374,38 @@ h1{letter-spacing:-.015em}
 .dragitem.bad{border-color:var(--sun)}
 :root[data-profile="p3"] .bucket{width:118px;height:118px}
 :root[data-profile="p3"] .dragitem .oe{font-size:48px}
+
+/* ===================== layout: usar a tela toda ===================== */
+/* antes o conteudo do jogo ficava espremido no topo e sobrava meia tela vazia.
+   agora a area de jogo ocupa a altura da tela e centra o conteudo no vertical. */
+.game.active{
+  display:flex;flex-direction:column;
+  min-height:calc(100vh - 40px);
+  min-height:calc(100dvh - 40px);
+}
+.game.active #stage{
+  flex:1 1 auto;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:8px 0 24px;
+}
+/* o prompt para de reservar 120px fixos: ocupa so o que precisa, dentro do centro */
+.game.active #stage>.prompt{min-height:0;margin:0}
+.game.active #stage>.prompt.slim{margin:0}
+
+/* opcoes maiores: 3 cartoes preenchem a linha em vez de ficarem miudos no meio */
+.options{gap:14px;width:100%;max-width:440px}
+.options .opt{flex:1 1 40%;min-width:96px;max-width:150px}
+.options.grid{max-width:440px;margin:0 auto}
+.opt .oe{font-size:clamp(40px,12vw,60px)}
+.big-letter{font-size:clamp(96px,30vw,168px)}
+
+/* tabuleiro da memoria e area de tracar tambem centrados e um pouco maiores */
+.board{max-width:460px}
+.tracewrap{max-width:380px}
+
+/* home: tambem centra melhor, sem tanto respiro morto embaixo */
+.home{justify-content:center;min-height:calc(100dvh - 120px)}
+
+@media (min-width:560px){
+  .options .opt{flex:0 1 150px}
+}
