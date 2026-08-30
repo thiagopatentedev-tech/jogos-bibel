@@ -8,7 +8,7 @@ Abrir: sirva a raiz do repositório (`python -m http.server`) e vá em `/v2/`.
 
 | Área | v1 | v2 |
 |---|---|---|
-| Figuras | emoji do sistema (varia por aparelho) | SVG Twemoji local e consistente (`assets/emoji/`, via `assets/glyph.js`), com fallback pro emoji de texto |
+| Figuras | emoji do sistema (varia por aparelho) | **Fluent Emoji Flat** da Microsoft (`v2/art/`, licença MIT), com moldura da marca por cima; Twemoji só de reserva. Via `assets/glyph.js`. |
 | Movimento | básico | entrada escalonada das opções, pop no acerto, cascata no tabuleiro, card de vitória em mola, tudo desligável por `prefers-reduced-motion` |
 | Instrução | falada | falada **e escrita**, num botão que repete a fala ao toque (Playlearning) |
 | Mascote | só na vitória | na home e reagindo a acerto e erro dentro do jogo |

@@ -1,16 +1,18 @@
-# Briefing — set de ilustração da Bibel (v2)
+# Figuras da v2 — o set atual e como trocar
 
-Substituir o Twemoji por um set de figuras autoral, no espírito das mascotes Bia e Bel. Este arquivo é a especificação e a lista de trabalho.
+## Estado atual: Microsoft Fluent Emoji (Flat), licença MIT
 
-## Como o set entra no jogo
+`v2/art/` traz as 253 figuras usadas nos jogos, do **Fluent Emoji** da Microsoft, estilo *Flat*: cores chapadas, cara amigável e moderna, bem mais quente que o Twemoji. Licença MIT, sem ilustrador, sem custo. Nos jogos, cada figura ainda ganha a moldura da marca (azulejo quente na opção, chip de papel no estímulo grande) por cima, pelo CSS. Folha de contato: `v2/art/contato.html`.
 
-`assets/glyph.js` procura a figura nesta ordem:
+## Como a figura entra no jogo
 
-1. `assets/art/<codepoint>.svg`  ← o set autoral (esta pasta)
-2. `assets/emoji/<codepoint>.svg`  ← Twemoji, o que está no ar hoje
+`assets/glyph.js` procura nesta ordem:
+
+1. `assets/art/<codepoint>.svg`  ← o set em uso (esta pasta, hoje Fluent Flat)
+2. `assets/emoji/<codepoint>.svg`  ← Twemoji, só de reserva
 3. o próprio emoji como texto
 
-Ou seja: **cada arquivo que você colocar em `assets/art/` sobe automaticamente em todos os jogos que usam aquela figura.** Não precisa mexer em código. Dá pra entregar aos poucos.
+**Cada arquivo que você colocar em `assets/art/` substitui o do Fluent naquele lugar, em todos os jogos, sem tocar em código.** É assim que um set autoral entra no futuro, aos poucos. O resto deste arquivo é a spec de estilo e a lista, caso você queira ir por esse caminho.
 
 Nome do arquivo = codepoint em hexa minúsculo, sem o seletor de variação `fe0f`, partes unidas por hífen. Exemplos: `🍎` → `1f34e.svg`, `1️⃣` → `31-20e3.svg`, `☀️` → `2600.svg`. A lista abaixo já traz o nome certo de cada um.
 
