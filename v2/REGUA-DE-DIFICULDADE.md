@@ -31,7 +31,6 @@ Nada disso trava o jogo nem guarda perfil. É só um empurrão visual, calculado
 
 ## Estado
 
-- **16 jogos já em 5 níveis:** `soma-facil`, `contar`, `maior-grupo`, `sequencia` (matemática); `cores`, `diferente`, `emocoes`, `formas`, `opostos`, `padroes`, `partes-do-corpo`, `rotina`, `sons-dos-bichos`, `tamanhos`, `caca-letra`, `ingles-pra-figura` (conceito). Os níveis 4 e 5 destes são **rascunho, para o Thiago revisar** (o conteúdo de matemática é objetivo, o de conceito e vocabulário pede um olhar).
+- **20 jogos em 5 níveis.** Todos os de `choice` e `order`. Os níveis 4 e 5 são **rascunho, para o Thiago revisar**: o conteúdo de matemática (`soma-facil`, `contar`, `maior-grupo`, `sequencia`) é objetivo; o de conceito e o vocabulário de alfabetização (`primeira-letra`, `som-da-letra`, `silabas`, `qual-palavra`, e os demais) pedem um olhar e podem ter palavra trocada.
 - Empurrão adaptativo ativo no motor.
-- **Faltam 4:** `primeira-letra`, `som-da-letra`, `silabas`, `qual-palavra`. São alfabetização em português puro; o vocabulário dos níveis 4 e 5 é escolha do Thiago. Régua + prompt prontos pra isso.
-- `rimas` (6) e `sombras` (4) escalam por pares, mantêm. `tracar-numeros` é jogo novo, 3 níveis por ora.
+- `rimas` (6) e `sombras` (4) são memória e escalam por número de pares; mantêm. `tracar-numeros` é jogo novo, 3 níveis por ora. `copa` é à parte.
