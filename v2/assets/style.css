@@ -331,3 +331,21 @@ h1{letter-spacing:-.015em}
 @keyframes hintpulse{0%,100%{box-shadow:0 0 0 3px var(--leaf), var(--clay)}50%{box-shadow:0 0 0 6px rgba(56,182,118,.35), var(--clay)}}
 @media (prefers-reduced-motion:reduce){.opt.hintme{animation:none}}
 :root[data-calm] .opt.hintme{animation:none;box-shadow:0 0 0 3px var(--leaf), var(--clay)}
+
+/* ===================== Onda 3 · tratamento Bibel do emoji (meio-termo, sem set proprio) ===================== */
+/* o Twemoji ainda e a figura, mas ganha uma moldura da marca: some a cara de "pack de todo mundo" */
+
+/* figura da opcao: assenta num azulejo quente com canto arredondado */
+.opt .oe{background:var(--bibel-bg2);border-radius:16px;padding:.12em .16em;line-height:1;
+  box-shadow:inset 0 0 0 2px rgba(193,74,36,.10)}
+.opt.ok .oe{background:#e2f6ec;box-shadow:inset 0 0 0 2px rgba(56,182,118,.22)}
+:root[data-calm] .opt .oe{background:transparent;box-shadow:none;padding:0}
+
+/* estimulo unico grande: chip de papel com borda coral fina */
+.emoji-xl.solo{display:inline-block;padding:.16em;background:var(--card);
+  border:3px solid var(--line);border-radius:30px;box-shadow:var(--clay)}
+:root[data-calm] .emoji-xl.solo{box-shadow:none;border-color:var(--bibel-bg2)}
+
+/* sombra dos emojis um tom mais quente e curta */
+.gly{filter:drop-shadow(0 2px 2px rgba(120,60,25,.20))}
+.emoji-xl .gly{filter:drop-shadow(0 3px 3px rgba(120,60,25,.18))}

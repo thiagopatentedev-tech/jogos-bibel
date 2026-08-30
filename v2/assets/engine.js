@@ -214,7 +214,7 @@ function confetti(){if(calm())return;var box=$('confetti');var c=['#ffc23f','#3a
 /* --- engines --- */
 function promptHtml(r){var s=r.show;if(!s)return '';
  if(s.k==='letter')return '<div class="big-letter">'+T(s.v)+'</div>';
- if(s.k==='emoji')return '<div class="emoji-xl">'+G_(T(s.v))+'</div>'+(s.w?'<div class="promptword">'+T(s.w)+'</div>':'');
+ if(s.k==='emoji'){var solo=Array.from(String(T(s.v))).length<=2;return '<div class="emoji-xl'+(solo?' solo':'')+'">'+G_(T(s.v))+'</div>'+(s.w?'<div class="promptword">'+T(s.w)+'</div>':'');}
  if(s.k==='word')return '<div class="bigword">'+T(s.v)+'</div>';
  if(s.k==='count'){var h='<div class="countrow">';var v=G_(T(s.v));for(var i=0;i<s.n;i++)h+='<span>'+v+'</span>';return h+'</div>';}
  return '';}
