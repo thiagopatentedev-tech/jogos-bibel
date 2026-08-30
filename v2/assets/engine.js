@@ -349,10 +349,64 @@ function engineTrace(i){
  show();
 }
 
+/* motor "drag": arrastar cada figura pro cesto que a aceita.
+   dado do round: { say, buckets:[{emoji,accept}], items:[{emoji,kind}] } */
+function engineDrag(i){
+ var lv=curLevels()[i];var rounds=shuffle(lv.rounds.slice());var ri=0;startTimer();
+ function ptxy(e){var t=e.touches&&e.touches[0]||e;return {x:t.clientX,y:t.clientY};}
+ function show(){
+  if(ri>=rounds.length){finishLevel();return;}
+  setStats(ri,rounds.length);var r=rounds[ri];var sayTxt=T(r.say);
+  var items=shuffle(r.items.slice());var left=items.length;
+  var h='<div class="prompt slim">'+promptCaption(sayTxt)+'</div><div class="buckets">';
+  r.buckets.forEach(function(b,bi){h+='<div class="bucket" data-accept="'+b.accept+'" data-bi="'+bi+'"><span class="bkm">'+G_(T(b.emoji))+'</span></div>';});
+  h+='</div><div class="dragtray">';
+  items.forEach(function(it,k){h+='<button class="dragitem" data-k="'+k+'" data-kind="'+it.kind+'"><span class="oe">'+G_(T(it.emoji))+'</span></button>';});
+  h+='</div>';stageEl.innerHTML=h;say(sayTxt);wireRepeat(sayTxt);
+  stageEl.querySelectorAll('.dragitem').forEach(function(el){
+   var sx,sy,drag=false;
+   function down(e){
+    if(el.classList.contains('placed'))return;
+    var p=ptxy(e);sx=p.x;sy=p.y;drag=true;el.classList.add('grab');
+    document.addEventListener('mousemove',move);document.addEventListener('mouseup',up);
+    document.addEventListener('touchmove',move,{passive:false});document.addEventListener('touchend',up);
+    if(e.cancelable)e.preventDefault();
+   }
+   function move(e){
+    if(!drag)return;var p=ptxy(e);
+    el.style.transform='translate('+(p.x-sx)+'px,'+(p.y-sy)+'px) scale(1.12)';
+    if(e.cancelable)e.preventDefault();
+   }
+   function up(e){
+    drag=false;el.classList.remove('grab');
+    document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);
+    document.removeEventListener('touchmove',move);document.removeEventListener('touchend',up);
+    var p=ptxy(e),hit=null;
+    stageEl.querySelectorAll('.bucket').forEach(function(b){
+     var rc=b.getBoundingClientRect();
+     if(p.x>=rc.left&&p.x<=rc.right&&p.y>=rc.top&&p.y<=rc.bottom)hit=b;
+    });
+    if(hit&&hit.dataset.accept===el.dataset.kind){
+     el.classList.add('placed');el.style.transform='';
+     hit.classList.add('got');setTimeout(function(){hit.classList.remove('got');},400);
+     var rc=hit.getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+rc.height/2);reax('ok');SFX.good();
+     left--;if(left<=0){ri++;setStats(ri,rounds.length);setTimeout(show,700);}
+    }else{
+     el.style.transform='';el.classList.add('bad');shake(el);reax('no');SFX.miss();
+     setTimeout(function(){el.classList.remove('bad');},400);
+    }
+   }
+   el.addEventListener('mousedown',down);el.addEventListener('touchstart',down,{passive:false});
+  });
+ }
+ show();
+}
+
 function engineStart(i){
  if(G.engine==='memory')engineMemory(i);
  else if(G.engine==='order')engineOrder(i);
  else if(G.engine==='trace')engineTrace(i);
+ else if(G.engine==='drag')engineDrag(i);
  else engineChoice(i);
 }
 

@@ -349,3 +349,22 @@ h1{letter-spacing:-.015em}
 /* sombra dos emojis um tom mais quente e curta */
 .gly{filter:drop-shadow(0 2px 2px rgba(120,60,25,.20))}
 .emoji-xl .gly{filter:drop-shadow(0 3px 3px rgba(120,60,25,.18))}
+
+/* ===================== motor "drag": arrastar pro cesto ===================== */
+.buckets{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:6px 0 18px}
+.bucket{width:100px;height:100px;border:3px dashed var(--line);border-radius:22px;
+  display:flex;align-items:center;justify-content:center;background:var(--card);
+  transition:transform .18s var(--ease-out),background .18s,border-color .18s}
+.bucket .bkm{font-size:52px;line-height:1}
+.bucket .bkm .gly{width:1em;height:1em}
+.bucket.got{border-style:solid;border-color:var(--leaf);background:#e9f9f0;transform:scale(1.06)}
+.dragtray{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.dragitem{border:3px solid var(--line);background:var(--card);border-radius:18px;padding:10px 12px;
+  font-family:inherit;cursor:grab;touch-action:none;box-shadow:var(--clay);position:relative;z-index:2}
+.dragitem .oe{font-size:40px;line-height:1;display:block}
+.dragitem .oe .gly{width:1em;height:1em}
+.dragitem.grab{cursor:grabbing;z-index:20;opacity:.96}
+.dragitem.placed{opacity:0;pointer-events:none;transition:opacity .2s}
+.dragitem.bad{border-color:var(--sun)}
+:root[data-profile="p3"] .bucket{width:118px;height:118px}
+:root[data-profile="p3"] .dragitem .oe{font-size:48px}

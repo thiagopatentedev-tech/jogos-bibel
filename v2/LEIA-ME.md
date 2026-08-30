@@ -15,7 +15,7 @@ Abrir: sirva a raiz do repositório (`python -m http.server`) e vá em `/v2/`.
 | Tempo de tela | não tinha | ajuste opcional no hub (livre / 10 / 15 / 20 min), guardado em `localStorage`; ao estourar, tela gentil de "hora de descansar" com liberação por adulto |
 | Recompensa | estrela por nível | + figurinha por jogo concluído, numa prateleira no hub (`localStorage["bibel_stickers"]`) |
 | Hub | lista + filtro de turma | + "jogo de hoje" (escolha fixa por data) + prateleira de figurinhas + controle de tempo |
-| Motores | choice, memory, order | + **trace** |
+| Motores | choice, memory, order | + **trace** e **drag** |
 
 Nenhuma mudança no formato do dado dos jogos que já existiam. Todo o resto é `assets/engine.js` + `assets/style.css` (cópias da v1 com as adições) e o `assets/glyph.js` novo.
 
@@ -43,6 +43,30 @@ Ligar os pontos na ordem para traçar um número, letra ou forma por cima de um 
 - Serve para número, letra e forma. É só trocar `guide` e `dots`.
 
 Jogo piloto: [`tracar-numeros/`](tracar-numeros/).
+
+## Motor novo: `drag`
+
+Arrastar cada figura pro cesto que a aceita. Bom para classificar (fruta x brinquedo, comida x roupa, fazenda x mar).
+
+```json
+{
+  "engine": "drag",
+  "levels": [
+    { "nome": {"pt":"Nível 1","en":"Level 1"}, "sub": {"pt":"fruta ou brinquedo","en":"fruit or toy"}, "rounds": [
+      { "say": {"pt":"Fruta na cesta, brinquedo na caixa","en":"Fruit in the basket, toy in the box"},
+        "buckets": [ {"emoji":"🧺","accept":"fruta"}, {"emoji":"🧸","accept":"brinquedo"} ],
+        "items":   [ {"emoji":"🍎","kind":"fruta"}, {"emoji":"🚗","kind":"brinquedo"} ] }
+    ]}
+  ]
+}
+```
+
+- `buckets`: os alvos. `accept` é a etiqueta que aquele cesto aceita.
+- `items`: as figuras arrastáveis. `kind` casa com o `accept` de um cesto.
+- A rodada termina quando todas as figuras estão nos cestos certos. Solta no lugar errado, a figura volta.
+- Funciona com toque e com mouse.
+
+Jogo piloto: [`guarda-as-coisas/`](guarda-as-coisas/).
 
 ## Onda 1 do redesign "estado da arte"
 
