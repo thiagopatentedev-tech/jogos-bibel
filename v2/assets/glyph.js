@@ -1,7 +1,11 @@
-/* glyph.js — troca o emoji do CONTEÚDO por um SVG Twemoji local, sem tocar no dado.
+/* glyph.js — troca o emoji do CONTEÚDO por uma figura local, sem tocar no dado.
    O bloco window.__G__ continua com "🔴"; quem renderiza chama glyph("🔴").
    Usado pelo engine.js (jogos) e pelo index.html (hub).
-   Se o SVG não existir, cai de volta para o emoji de texto (onerror). */
+   Ordem de busca da figura:
+     1. assets/art/<cp>.svg    -> set autoral da Bibel (ver art/BRIEFING-ILUSTRACAO.md)
+     2. assets/emoji/<cp>.svg  -> Twemoji
+     3. o emoji como texto
+   Cada arquivo novo em assets/art/ sobe sozinho em todos os jogos. */
 (function(){
   // base de assets, derivada da própria tag <script src=".../glyph.js">
   var base = (function(){
@@ -31,9 +35,11 @@
     opts = opts || {};
     var cls = 'gly' + (opts.cls ? ' ' + opts.cls : '');
     return String(input).replace(RE, function(m){
-      var src = base + 'emoji/' + toName(m) + '.svg';
-      return '<img class="' + cls + '" draggable="false" alt="' + m + '" src="' + src + '" ' +
-             'onerror="this.replaceWith(document.createTextNode(this.alt))">';
+      var cp = toName(m);
+      return '<img class="' + cls + '" draggable="false" alt="' + m + '" ' +
+             'src="' + base + 'art/' + cp + '.svg" ' +
+             'data-twe="' + base + 'emoji/' + cp + '.svg" ' +
+             'onerror="if(this.src.indexOf(\'/art/\')>-1){this.src=this.getAttribute(\'data-twe\');}else{this.replaceWith(document.createTextNode(this.alt));}">';
     });
   };
   window.glyph.base = base;
