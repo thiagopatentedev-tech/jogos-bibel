@@ -1,17 +1,17 @@
 # Atribuições
 
-## Microsoft Fluent Emoji (v2)
+## Microsoft Fluent Emoji (linha atual)
 
-As figuras em `v2/art/` são do **Fluent Emoji** da Microsoft, estilo *Flat*.
+As figuras em `art/` são do **Fluent Emoji** da Microsoft, estilo *Flat*.
 
 - Licença **MIT**: https://opensource.org/licenses/MIT
 - Fonte: https://github.com/microsoft/fluentui-emoji
 - Baixadas via o fork `bignutty/fluent-emoji` (nomes por codepoint).
 - Apenas o subconjunto usado nos jogos foi incluído.
 
-## Twemoji (v1 e fallback da v2)
+## Twemoji (arquivo v1 e fallback da linha atual)
 
-Os ícones em `assets/emoji/` e `v2/assets/emoji/` são do projeto **Twemoji**, mantido originalmente pela Twitter, Inc. e hoje pela comunidade (fork `jdecked/twemoji`). Na v2 servem só de reserva, quando falta a figura em `v2/art/`.
+Os ícones em `assets/emoji/` (linha atual) e `v1/assets/emoji/` (arquivo) são do projeto **Twemoji**, mantido originalmente pela Twitter, Inc. e hoje pela comunidade (fork `jdecked/twemoji`). Na linha atual servem só de reserva, quando falta a figura em `art/`.
 
 - Gráficos licenciados sob **CC-BY 4.0**: https://creativecommons.org/licenses/by/4.0/
 - Fonte: https://github.com/jdecked/twemoji
@@ -19,8 +19,9 @@ Os ícones em `assets/emoji/` e `v2/assets/emoji/` são do projeto **Twemoji**, 
 
 ## Fontes
 
-- **Fredoka** — Google Fonts, SIL Open Font License 1.1.
-- **Nunio / Luckiest Guy** (usadas no jogo `copa`) — Google Fonts, SIL Open Font License 1.1.
+- **Baloo 2** e **Nunito** (linha atual) — Google Fonts, SIL Open Font License 1.1.
+- **Fredoka** (arquivo v1) — Google Fonts, SIL Open Font License 1.1.
+- **Nunito / Luckiest Guy** (jogo `copa`, arquivado) — Google Fonts, SIL Open Font License 1.1.
 
 ## Código
 
