@@ -620,3 +620,11 @@ h1,.head h1{
 /* trace no mesmo padrão dos blocos */
 .tracewrap svg{border-radius:10px;box-shadow:5px 5px 0 #1c1c1c}
 .tguide,.tnum{font-family:"Baloo 2","Trebuchet MS",sans-serif}
+
+/* ===================== chrome do topo rola com a página =====================
+   Era position:fixed e cobria o conteúdo quando o tabuleiro passava da altura
+   da tela (memória, níveis avançados). Agora rola junto: ao descer, sai da frente. */
+body{position:relative}
+.menu-home,.lang-btn,.info-btn,.profile-btn{position:absolute}
+/* carta da memória um pouco menos alta: cabe mais fileira por tela */
+.card{aspect-ratio:4/5}
