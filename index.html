@@ -103,11 +103,13 @@ var lang=getLang();
 var profile=getProfile();
 var turma=getTurma();
 function slugOf(h){return h.replace(/\.\.\//g,'').replace(/\//g,'');}
+// endereços mudaram de significado na troca v1->v2; ?v fura o cache de HTML do webview
+function nav(h){return h.indexOf('http')===0?h:h+(h.indexOf('?')<0?'?v=5':'');}
 function dayIndex(n){var d=new Date();var str=''+(d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate());var x=0;for(var i=0;i<str.length;i++)x=(x*31+str.charCodeAt(i))>>>0;return x%n;}
 function renderToday(){
  var el=document.getElementById('today');if(!el)return;
  var t=TILES[dayIndex(TILES.length)];var d=t[lang];
- el.innerHTML='<a href="'+t.href+'"><span class="te">'+(window.glyph?window.glyph(t.e):t.e)+'</span>'
+ el.innerHTML='<a href="'+nav(t.href)+'"><span class="te">'+(window.glyph?window.glyph(t.e):t.e)+'</span>'
   +'<span class="meta"><span class="k">'+HEAD[lang].today+'</span><span class="tt">'+d[0]+'</span></span></a>';
 }
 function getStickers(){try{return JSON.parse(localStorage.getItem('bibel_stickers')||'[]');}catch(e){return [];}}
@@ -142,7 +144,7 @@ function renderParentCtl(){
 }
 function tile(t){
  var d=t[lang];
- var a=document.createElement('a');a.className='tile';a.href=t.href;
+ var a=document.createElement('a');a.className='tile';a.href=nav(t.href);
  a.innerHTML='<div class="te">'+(window.glyph?window.glyph(t.e):t.e)+'</div><div class="tt">'+d[0]+'</div><div class="td">'+d[1]+'</div>';
  return a;
 }
