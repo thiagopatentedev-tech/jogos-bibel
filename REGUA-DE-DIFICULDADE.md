@@ -31,6 +31,6 @@ Nada disso trava o jogo nem guarda perfil. É só um empurrão visual, calculado
 
 ## Estado
 
-- **Todos os 26 jogos do v2 em 5+ níveis** (`rimas` tem 6). Os níveis 4 e 5 são **rascunho, para o Thiago revisar**: o conteúdo de matemática (`soma-facil`, `contar`, `maior-grupo`, `sequencia`, `tracar-numeros`, `faz-dez`) é objetivo; o de conceito, o vocabulário de alfabetização e as palavras do `junta-os-sons` pedem um olhar e podem ter item trocado.
+- **Todos os 27 jogos do v2 em 5+ níveis** (`rimas` tem 6). Os níveis 4 e 5 são **rascunho, para o Thiago revisar**: o conteúdo de matemática (`soma-facil`, `contar`, `maior-grupo`, `sequencia`, `tracar-numeros`, `faz-dez`) é objetivo; o de conceito, o vocabulário de alfabetização e as palavras do `junta-os-sons` pedem um olhar e podem ter item trocado.
 - Empurrão adaptativo ativo no motor.
 - Motores especiais: `tracar-numeros` (trace) vai a 5 com números 6-9 e letras; `guarda-as-coisas` (drag) vai a 5 com "voa/não voa" e três cestos; `sombras` (memory) vai a 5 com um nível de 8 pares sem dica falada. Pilotos dos motores novos: `junta-os-sons` (read) e `faz-dez` (math), 5 níveis, 4-5 rascunho. `copa` é à parte (v1).

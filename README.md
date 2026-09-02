@@ -12,7 +12,7 @@ Uma coleção de **23 joguinhos de alfabetização e matemática** para criança
 
 Este repositório existe para você **clonar, trocar o conteúdo pelos nomes e temas dos seus filhos, e publicar a sua própria versão** em minutos. O passo a passo está abaixo.
 
-> **Estrutura.** A versão atual (26 jogos, visual "Blocos de Brinquedo", motores `choice`, `memory`, `order`, `trace`, `drag`, `read`, `math`) fica na **raiz** do repositório. A primeira versão (23 jogos, visual anterior) está arquivada em [`v1/`](v1/), sem receber mudanças. `LEIA-ME.md` descreve o que a linha atual tem a mais.
+> **Estrutura.** A versão atual (27 jogos, visual "Blocos de Brinquedo", motores `choice`, `memory`, `order`, `trace`, `drag`, `read`, `math`) fica na **raiz** do repositório. A primeira versão (23 jogos, visual anterior) está arquivada em [`v1/`](v1/), sem receber mudanças. `LEIA-ME.md` descreve o que a linha atual tem a mais.
 
 ---
 
